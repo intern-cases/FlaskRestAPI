@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 import datetime
 from marshmallow import fields, Schema, validate
 
-app = Flask(__name__)
+app: Flask = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/postgres'
 db = SQLAlchemy(app)
 
@@ -67,12 +67,12 @@ class PostModel(db.Model):
     post_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey(UserModel.user_id), nullable=False)
     post_text = db.Column(db.String, nullable=False)
-    comments = db.relationship("CommentModel", backref='posts', cascade='delete', lazy=True)
+    comments = db.relationship("CommentModel", backref='posts')
     created_time = db.Column(db.DateTime(timezone=True), default=func.now())
-    points = db.relationship("PostPointModel", backref='posts', cascade='delete', lazy=True)
+    points = db.relationship("PostPointModel", backref='posts')
 
     def __init__(self, post_text, user_id):
-        self.user_id=user_id
+        self.user_id = user_id
         self.post_text = post_text
         self.created_time = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
@@ -88,13 +88,13 @@ class CommentModel(db.Model):
     parent_id = db.Column(db.Integer)
     comment_text = db.Column(db.String, nullable=False)
     created_time = db.Column(db.DateTime(timezone=True), default=func.now())
-    points = db.relationship("CommentPointModel", backref='comments', cascade='delete', lazy=True)
-    #   comments = db.relationship("t_comment", backref='comments', cascade = 'delete', lazy=True)
+    points = db.relationship("CommentPointModel", backref='comments')
 
-    def __init__(self, user_id, post_id, comment_text):
+    def __init__(self, user_id, post_id, comment_text, parent_id):
         self.comment_text = comment_text
         self.user_id = user_id
         self.post_id = post_id
+        self.parent_id = parent_id
         self.created_time = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
 
@@ -135,7 +135,7 @@ class CommentPointModel(db.Model):
     points = db.Column(db.Integer, nullable=False)
 
 
-""""""""""""""""""""""""""""""""""Schemalar"""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""Schemas"""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 
 class UserPointSchema(Schema):
@@ -156,6 +156,17 @@ class CommentPointSchema(Schema):
     points = fields.Int(validate=validate.Range(min=0, max=10))
 
 
+class NestedCommentSchema(Schema):
+    comment_id = fields.Int(dump_only=True)
+    comment_text = fields.Str(required=True)
+    user_id = fields.Int(dump_only=True)
+    parent_id = fields.Int(dump_only=True)
+    post_id = fields.Int(dump_only=True)
+    created_time = fields.DateTime(dump_only=True)
+    modified_at = fields.DateTime(dump_only=True)
+    points = fields.Nested(CommentPointSchema(), many=True)
+
+
 class CommentSchema(Schema):
     comment_id = fields.Int(dump_only=True)
     comment_text = fields.Str(required=True)
@@ -165,7 +176,7 @@ class CommentSchema(Schema):
     created_time = fields.DateTime(dump_only=True)
     modified_at = fields.DateTime(dump_only=True)
     points = fields.Nested(CommentPointSchema(), many=True)
-    #comments = fields.Nested(CommentSchema(), many=True)
+    comments = fields.Nested(NestedCommentSchema(), many=True)
 
 
 class PostSchema(Schema):
