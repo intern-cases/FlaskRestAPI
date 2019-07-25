@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33e236ea-1126-4d5c-a347-07063dc83997" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/testalch.py" beforeDir="false" afterPath="$PROJECT_DIR$/testalch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testviews.py" beforeDir="false" afterPath="$PROJECT_DIR$/testviews.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,11 +12,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/authenticaton.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3">
-              <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+            <state relative-caret-position="345">
+              <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
               <folding>
                 <element signature="e#0#49#0" expanded="true" />
               </folding>
@@ -29,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testalch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-68">
-              <caret line="77" column="53" lean-forward="true" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
+            <state relative-caret-position="1785">
+              <caret line="119" column="19" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
               </folding>
@@ -38,11 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testviews.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="347">
-              <caret line="264" column="37" selection-start-line="264" selection-start-column="37" selection-end-line="264" selection-end-column="37" />
+            <state relative-caret-position="201">
+              <caret line="179" column="9" selection-start-line="179" selection-start-column="9" selection-end-line="179" selection-end-column="9" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
               </folding>
@@ -65,9 +63,9 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/authenticaton.py" />
         <option value="$PROJECT_DIR$/testalch.py" />
         <option value="$PROJECT_DIR$/testviews.py" />
+        <option value="$PROJECT_DIR$/authenticaton.py" />
       </list>
     </option>
   </component>
@@ -81,9 +79,10 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1440" />
-    <option name="height" value="900" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="y" value="23" />
+    <option name="width" value="1400" />
+    <option name="height" value="771" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -198,18 +197,18 @@
       <workItem from="1564008230122" duration="772000" />
       <workItem from="1564039851200" duration="1928000" />
       <workItem from="1564043502716" duration="150000" />
-      <workItem from="1564052251299" duration="3072000" />
+      <workItem from="1564052251299" duration="5641000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="9597000" />
+    <option name="totallyTimeSpent" value="12166000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="1440" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.13447782" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.10010649" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -264,32 +263,32 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/venv/bin/iptest3" />
-    <entry file="file://$PROJECT_DIR$/authenticaton.py">
+    <entry file="file://$PROJECT_DIR$/testviews.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3">
-          <caret line="9" column="17" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
+        <state relative-caret-position="201">
+          <caret line="179" column="9" selection-start-line="179" selection-start-column="9" selection-end-line="179" selection-end-column="9" />
           <folding>
-            <element signature="e#0#49#0" expanded="true" />
+            <element signature="e#0#12#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/testalch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="77" column="53" lean-forward="true" selection-start-line="77" selection-start-column="53" selection-end-line="77" selection-end-column="53" />
+        <state relative-caret-position="1785">
+          <caret line="119" column="19" selection-start-line="119" selection-start-column="19" selection-end-line="119" selection-end-column="19" />
           <folding>
             <element signature="e#0#23#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/testviews.py">
+    <entry file="file://$PROJECT_DIR$/authenticaton.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="347">
-          <caret line="264" column="37" selection-start-line="264" selection-start-column="37" selection-end-line="264" selection-end-column="37" />
+        <state relative-caret-position="345">
+          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
           <folding>
-            <element signature="e#0#12#0" expanded="true" />
+            <element signature="e#0#49#0" expanded="true" />
           </folding>
         </state>
       </provider>

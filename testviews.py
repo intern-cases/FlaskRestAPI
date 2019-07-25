@@ -4,7 +4,7 @@ import authenticaton
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, NestedCommentSchema, \
     CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
-    db, app, UserRolesModel
+    db, app, UserRolesModel, RoleModel
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
@@ -20,10 +20,10 @@ post_points_schema = PostPointSchema(many=True)
 comment_points_schema = CommentPointSchema(many=True)
 
 """""""""""""""""""""""""""""""""""USER TABLE ROUTES"""""""""""""""""""""""""""""""""""""""
-
-""""@app.route("/add_roles", methods=["POST"])
+"""
+@app.route("/add_roles", methods=["POST"])
 def add_roles():
-    role_name = request.json["role_name"]
+    role_name = flask.request.json["role_name"]
     new_role = RoleModel(role_name)
     db.session.add(new_role)
     db.session.commit()
@@ -174,12 +174,12 @@ def add_post():
 @authenticaton.login_required
 def points_to_post(post_id):
     post = PostModel.query.filter(post_id == PostModel.post_id).first()
+    point = flask.request.json["point"]
     if authenticaton.user_verifying() == post.user_id:
         return flask.jsonify("You can't set points to your post.")
     else:
-        point = flask.request.json["point"]
-        if 0 <= int(point) <= 10:
-            user_id = post.user_id
+        if int(point) >= 0 or int(point) <= 10:
+            user_id = authenticaton.user_verifying()
             point_post = PostPointModel(user_id, int(point))
             db.session.add(point_post)
             db.session.commit()
