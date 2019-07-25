@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort
-from authenticaton import user_verifying, login_required
+from authenticaton import user_verifying, login_required, is_admin
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
     db, app, RoleModel, UserRolesModel
@@ -126,7 +126,7 @@ def user_detail_by_username(username):
 def user_update(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     # login olan kullanıcı sadece kendini update edebilsin diye if state koyulmuştur.
-    if user.user_id == user_verifying():
+    if user.user_id == user_verifying() or is_admin():
         username = request.json['username']
         password = request.json['password']
         email = request.json['email']
@@ -144,7 +144,7 @@ def user_update(username):
 @app.route("/user/<int:user_id>", methods=["DELETE"])
 @login_required
 def user_delete(user_id):
-    if user_id == user_verifying():
+    if user_id == user_verifying() or is_admin:
         user = UserModel.query.filter(user_verifying() == UserModel.user_id).first()
         db.session.delete(user)
         db.session.commit()
@@ -158,7 +158,7 @@ def user_delete(user_id):
 @login_required
 def user_delete_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
-    if user_verifying() == user.user_id:
+    if user_verifying() == user.user_id or is_admin():
         db.session.delete(user)
         db.session.commit()
         return jsonify(user)
@@ -239,18 +239,21 @@ def post_detail_by_username(username):
 def post_update(user_id, post_id):
     post = PostModel.query.filter(user_id == PostModel.user_id and post_id == PostModel.post_id).first()
     post_text = request.json["post_text"]
+    if user_verifying() == post.user_id or is_admin():
+        post.post_text = post_text
 
-    post.post_text = post_text
+        db.session.commit()
+        return jsonify(post)
 
-    db.session.commit()
-    return jsonify(post)
+    else:
+        return jsonify("You're not allowed to do this.")
 
 
 # post silme kullanıcıya bağlı, postu silmek için sonradan authentication eklenicek
 @app.route("/post/<int:post_id>", methods=["DELETE"])
 @login_required
 def post_delete(post_id):
-    if user_verifying() == PostModel.user_id:
+    if user_verifying() == PostModel.user_id or is_admin():
         post = PostModel.query.filter(user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
         db.session.delete(post)
         db.session.commit()
