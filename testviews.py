@@ -92,7 +92,7 @@ def point_to_user(username):
 def get_logged_user():
     spesific_user = UserModel.query.filter(user_verifying() == UserModel.user_id).first()
     result = user_schema.dump(spesific_user)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # tüm userları getir
@@ -101,7 +101,7 @@ def get_logged_user():
 def get_users():
     all_users = UserModel.query.all()
     result = users_schema.dump(all_users)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # idye göre kullanıcı görme
@@ -109,7 +109,7 @@ def get_users():
 def user_detail(user_id):
     user = UserModel.query.filter(user_id == UserModel.user_id).first()
     result = user_schema.dump(user)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # kullanıcı adına  göre kullanıcıları görme
@@ -117,7 +117,7 @@ def user_detail(user_id):
 def user_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     result = user_schema.dump(user)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # kullanıcı adına göre kullanıcıyı güncelleme
@@ -204,7 +204,7 @@ def points_to_post(post_id):
 def logged_users_post():
     my_post = PostModel.query.filter(PostModel.user_id == user_verifying())
     result = posts_schema.dump(my_post)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # tüm postları alma
@@ -212,7 +212,7 @@ def logged_users_post():
 def get_posts():
     all_posts = PostModel.query.all()
     result = posts_schema.dump(all_posts)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # kullanıcı idsine göre postları görme
@@ -220,7 +220,7 @@ def get_posts():
 def post_detail(user_id):
     posts = PostModel.query.filter(user_id == PostModel.user_id).all()
     result = posts_schema.dump(posts)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # kullanıcıya göre postları görme
@@ -229,7 +229,7 @@ def post_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     post = PostModel.query.filter(user.user_id == PostModel.user_id).all()
     result = posts_schema.dump(post)
-    return jsonify(result.data)
+    return jsonify(result)
 
 
 # usera bağlı bi postu güncellemek için daha sonra kullanıcı
@@ -298,7 +298,7 @@ def points_to_comment(comment_id):
 def get_comments_from_post(post_id):
     all_comments = CommentModel.query.order_by(post_id == CommentModel.post_id).all()
     results = comments_schema.dump(all_comments)
-    return jsonify(results.data)
+    return jsonify(results)
 
 
 # postun commentlerini update etmek için comment giriş yapmış usera bağlı mı diye kontrol ediliyor.
