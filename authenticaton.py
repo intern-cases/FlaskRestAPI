@@ -1,7 +1,7 @@
 from werkzeug.security import check_password_hash
 from flask import abort, jsonify, request
 from functools import wraps
-from testalch import UserModel
+from testalch import UserModel, UserRolesModel
 import base64
 
 
@@ -16,6 +16,21 @@ def user_verifying():
     user = UserModel.query.filter(encoded_auth_username == UserModel.username).first()
     verified_user_id = user.user_id
     return verified_user_id
+
+
+def is_admin(user_id):
+    if user_id is None:
+        user = UserRolesModel.query.filter(user_verifying() == UserRolesModel.user_id).first()
+        if user.role_id == 2:
+            return True
+        else:
+            return False
+    else:
+        user = UserRolesModel.query.filter(user_id == UserRolesModel.user_id).first()
+        if user.role_id == 2:
+            return True
+        else:
+            return False
 
 
 def login_required(f):
