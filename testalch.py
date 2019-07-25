@@ -8,8 +8,8 @@ import datetime
 from marshmallow import fields, Schema, validate
 
 app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/postgres'
 db = SQLAlchemy(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/testcase'
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -156,7 +156,6 @@ class CommentPointSchema(Schema):
     points = fields.Int(validate=validate.Range(min=0, max=10))
 
 
-# comment şeması
 class CommentSchema(Schema):
     comment_id = fields.Int(dump_only=True)
     comment_text = fields.Str(required=True)
@@ -169,7 +168,6 @@ class CommentSchema(Schema):
     #comments = fields.Nested(CommentSchema(), many=True)
 
 
-# post şeması
 class PostSchema(Schema):
     comments = fields.Nested(CommentSchema(), many=True)
     modified_at = fields.DateTime(dump_only=True)
@@ -180,7 +178,6 @@ class PostSchema(Schema):
     points = fields.Nested(PostPointSchema(), many=True)
 
 
-# kullanıcı şeması
 class UserSchema(Schema):
     user_id = fields.Int(dump_only=True)
     username = fields.Str(required=True)

@@ -1,8 +1,9 @@
 from flask import request, jsonify, abort
+
 from authenticaton import user_verifying, login_required, is_admin
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
-    db, app, RoleModel, UserRolesModel
+    db, app, UserRolesModel
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
@@ -18,7 +19,7 @@ postpoints_schema = PostPointSchema(many=True)
 commentpoints_schema = CommentPointSchema(many=True)
 
 """""""""""""""""""""""""""""""""""USER TABLE ROUTES"""""""""""""""""""""""""""""""""""""""""""""
-# user ve admin rollerinin database'e eklemnesi için yazılmış route şu anda user 1 ve admin 2 olarak belirlendi.
+
 """"@app.route("/addroles", methods=["POST"])
 def add_roles():
     role_name = request.json["role_name"]
@@ -31,8 +32,6 @@ def add_roles():
 @app.route("/setroles", methods=["PUT"])
 @login_required
 def set_admin():
-    # giriş yapmış kullanıcının admin olup olmadığını ifte kontrol ediyoruz
-    # burda admin başka kullanıcıya admin yetkisi verebiliyor.
     user = UserRolesModel.query.filter(user_verifying == UserRolesModel.user_id).get(UserRolesModel.role_id)
     if user.role_id == 2:
         user_id = request.json["user_id"]
@@ -42,10 +41,8 @@ def set_admin():
         db.session.commit()
     else:
         return jsonify("You're not allowed to do this")
-    return
 
 
-# kullanıcı kayit
 @app.route("/user", methods=["POST"])
 def add_user():
     username = request.json['username']
@@ -55,9 +52,9 @@ def add_user():
     new_user = UserModel(username, email, password)
 
     if username is None or password is None or email is None:
-        abort(404)  # alanlar boş olamaz
+        abort(404)
     if UserModel.query.filter(username == UserModel.username or email == UserModel.email).first() is not None:
-        abort(404)  # user exist
+        abort(404)
 
     db.session.add(new_user)
     db.session.commit()
@@ -83,10 +80,9 @@ def point_to_user(username):
             db.session.commit()
             return jsonify(point_user)
         else:
-            return jsonify("Giriceğiniz puan 0 ile 10 arasında olmalıdır.")
+            return jsonify("You have to set points between 0 and 10.")
 
 
-# user bilgilerini görebildiği panel.
 @app.route("/user_panel", methods=["GET"])
 @login_required
 def get_logged_user():
@@ -95,16 +91,13 @@ def get_logged_user():
     return jsonify(result.data)
 
 
-# tüm userları getir
 @app.route("/users", methods=["GET"])
-@login_required
 def get_users():
     all_users = UserModel.query.all()
     result = users_schema.dump(all_users)
     return jsonify(result.data)
 
 
-# idye göre kullanıcı görme
 @app.route("/user/<int:user_id>", methods=["GET"])
 def user_detail(user_id):
     user = UserModel.query.filter(user_id == UserModel.user_id).first()
@@ -112,7 +105,6 @@ def user_detail(user_id):
     return jsonify(result.data)
 
 
-# kullanıcı adına  göre kullanıcıları görme
 @app.route("/user/<string:username>", methods=["GET"])
 def user_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
@@ -120,13 +112,11 @@ def user_detail_by_username(username):
     return jsonify(result.data)
 
 
-# kullanıcı adına göre kullanıcıyı güncelleme
 @app.route("/user/<string:username>", methods=["PUT"])
 @login_required
 def user_update(username):
     user = UserModel.query.filter(username == UserModel.username).first()
-    # login olan kullanıcı sadece kendini update edebilsin diye if state koyulmuştur.
-    if user.user_id == user_verifying() or is_admin():
+    if user.user_id == user_verifying() or is_admin(user_verifying()):
         username = request.json['username']
         password = request.json['password']
         email = request.json['email']
@@ -140,11 +130,10 @@ def user_update(username):
         return jsonify("You're not allowed to do this action.")
 
 
-# kullanıcı kullanıcı numarasina göre kullanıcı silme
 @app.route("/user/<int:user_id>", methods=["DELETE"])
 @login_required
 def user_delete(user_id):
-    if user_id == user_verifying() or is_admin:
+    if user_id == user_verifying() or is_admin(user_verifying()):
         user = UserModel.query.filter(user_verifying() == UserModel.user_id).first()
         db.session.delete(user)
         db.session.commit()
@@ -153,12 +142,11 @@ def user_delete(user_id):
         return jsonify("You're not allowed to do this action.")
 
 
-# kullanıcı adına göre kullanıcı silme
 @app.route("/user/<string:username>", methods=["DELETE"])
 @login_required
 def user_delete_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
-    if user_verifying() == user.user_id or is_admin():
+    if user_verifying() == user.user_id or is_admin(user_verifying()):
         db.session.delete(user)
         db.session.commit()
         return jsonify(user)
@@ -169,7 +157,6 @@ def user_delete_by_username(username):
 """""""""""""""""""""""""""""""""""POST TABLE ROUTES"""""""""""""""""""""""""""""""""""""""""""""
 
 
-# kullanıcıya post ekleme
 @app.route("/post", methods=["POST"])
 @login_required
 def add_post():
@@ -196,7 +183,7 @@ def points_to_post(post_id):
             db.session.commit()
             return jsonify(point_post)
         else:
-            return jsonify("Giriceğiniz puan 0 ile 10 arasında olmalıdır.")
+            return jsonify("You have to set points between 0 and 10.")
 
 
 @app.route("/my_posts", methods=["GET"])
@@ -207,7 +194,6 @@ def logged_users_post():
     return jsonify(result.data)
 
 
-# tüm postları alma
 @app.route("/main_page", methods=["GET"])
 def get_posts():
     all_posts = PostModel.query.all()
@@ -215,7 +201,6 @@ def get_posts():
     return jsonify(result.data)
 
 
-# kullanıcı idsine göre postları görme
 @app.route("/post/<int:user_id>", methods=["GET"])
 def post_detail(user_id):
     posts = PostModel.query.filter(user_id == PostModel.user_id).all()
@@ -223,7 +208,6 @@ def post_detail(user_id):
     return jsonify(result.data)
 
 
-# kullanıcıya göre postları görme
 @app.route("/post/<string:username>", methods=["GET"])
 def post_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
@@ -232,14 +216,12 @@ def post_detail_by_username(username):
     return jsonify(result.data)
 
 
-# usera bağlı bi postu güncellemek için daha sonra kullanıcı
-# o posta sahip olup olmadığıyla ilgili authentication gelicek
 @app.route("/post/<int:user_id>/<int:post_id>", methods=["PUT"])
 @login_required
 def post_update(user_id, post_id):
     post = PostModel.query.filter(user_id == PostModel.user_id and post_id == PostModel.post_id).first()
     post_text = request.json["post_text"]
-    if user_verifying() == post.user_id or is_admin():
+    if user_verifying() == post.user_id or is_admin(user_verifying()):
         post.post_text = post_text
 
         db.session.commit()
@@ -249,11 +231,10 @@ def post_update(user_id, post_id):
         return jsonify("You're not allowed to do this.")
 
 
-# post silme kullanıcıya bağlı, postu silmek için sonradan authentication eklenicek
 @app.route("/post/<int:post_id>", methods=["DELETE"])
 @login_required
 def post_delete(post_id):
-    if user_verifying() == PostModel.user_id or is_admin():
+    if user_verifying() == PostModel.user_id or is_admin(user_verifying()):
         post = PostModel.query.filter(user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
         db.session.delete(post)
         db.session.commit()
@@ -265,7 +246,6 @@ def post_delete(post_id):
 """""""""""""""""""""""""""""""""""Comment table routes"""""""""""""""""""""""""""""""""""""""""""""
 
 
-# comment ekleme
 @app.route("/comment/post<int:post_id>", methods=["POST"])
 @login_required
 def add_comment_to_post(post_id):
@@ -278,7 +258,7 @@ def add_comment_to_post(post_id):
     return jsonify(new_comment)
 
 
-@app.route("/set_points_comment/<int:comment_id>")
+@app.route("/set_points_comment/<int:comment_id>", methods=["POST"])
 @login_required
 def points_to_comment(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.post_id).first()
@@ -293,10 +273,9 @@ def points_to_comment(comment_id):
             db.session.commit()
             return jsonify(point_comment)
         else:
-            return jsonify("Giriceğiniz puan 0 ile 10 arasında olmalıdır.")
+            return jsonify("You have to set points between 0 and 10.")
 
 
-# posta bağlı tüm commentleri gösteren (tüm yorumları görmek için route)
 @app.route("/post<int:post_id>/comments", methods=["GET"])
 def get_comments_from_post(post_id):
     all_comments = CommentModel.query.order_by(post_id == CommentModel.post_id).all()
@@ -304,14 +283,13 @@ def get_comments_from_post(post_id):
     return jsonify(results.data)
 
 
-# postun commentlerini update etmek için comment giriş yapmış usera bağlı mı diye kontrol ediliyor.
 @app.route("/comment/<int:post_id>/<int:comment_id>", methods=["PUT"])
 @login_required
 def posts_comment_update(post_id, comment_id):
     post = CommentModel.query.filter(post_id == CommentModel.post_id).first()
     comment = CommentModel.query.filter(
         user_verifying() == CommentModel.user_id and CommentModel.post_id == post.post_id).first()
-    if user_verifying() == comment.user_id:
+    if user_verifying() == comment.user_id or is_admin(user_verifying()):
         comment_text = request.json["comment_text"]
         comment.comment_text = comment_text
         db.session.commit()
@@ -320,12 +298,11 @@ def posts_comment_update(post_id, comment_id):
         return jsonify("You're not allowed to do this action.")
 
 
-# comment silmek için, comment usera bağlı mı kontrol ediliyor.
 @app.route("/comment/delete<int:comment_id>", methods=["DELETE"])
 @login_required
 def post_comment_delete(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
-    if user_verifying() == comment.user_id:
+    if user_verifying() == comment.user_id or is_admin(user_verifying()):
         db.session.delete(comment)
         db.session.commit()
         return jsonify(comment)
