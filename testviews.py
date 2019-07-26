@@ -4,7 +4,7 @@ import authenticaton
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, NestedCommentSchema, \
     CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
-    db, app, UserRolesModel, RoleModel
+    db, app, UserRolesModel
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
@@ -74,10 +74,10 @@ def point_to_user(username):
     if authenticaton.user_verifying() == user.user_id:
         return flask.jsonify("You can't set points to yourself.")
     else:
-        point = flask.request.json["point"]
-        if 0 <= int(point) <= 10:
+        points = flask.request.json["point"]
+        if 0 <= int(points) <= 10:
             user_id = user.user_id
-            point_user = UserPointModel(user_id, int(point))
+            point_user = UserPointModel(user_id, int(points))
             db.session.add(point_user)
             db.session.commit()
             return flask.jsonify(point_user)
@@ -180,7 +180,7 @@ def points_to_post(post_id):
     else:
         if int(point) >= 0 or int(point) <= 10:
             user_id = authenticaton.user_verifying()
-            point_post = PostPointModel(user_id, int(point))
+            point_post = PostPointModel(user_id, post_id, int(point))
             db.session.add(point_post)
             db.session.commit()
             return flask.jsonify(point_post)
@@ -236,9 +236,9 @@ def post_update(user_id, post_id):
 @app.route("/post/<int:post_id>", methods=["DELETE"])
 @authenticaton.login_required
 def post_delete(post_id):
-    if authenticaton.user_verifying() == PostModel.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
-        post = PostModel.query.filter(
-            authenticaton.user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
+    post = PostModel.query.filter(
+        authenticaton.user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
+    if authenticaton.user_verifying() == post.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
         db.session.delete(post)
         db.session.commit()
         return flask.jsonify(post)
@@ -272,20 +272,22 @@ def add_comment_to_comment(comment_id):
     comment = CommentModel(user_id, post_id, comment_text, parent_id)
     db.session.add(comment)
     db.session.commit()
-    return flask.jsonify("Post request done.")
+    return flask.jsonify("Request done.")
 
 
 @app.route("/set_points_comment/<int:comment_id>", methods=["POST"])
 @authenticaton.login_required
 def points_to_comment(comment_id):
-    comment = CommentModel.query.filter(comment_id == CommentModel.post_id).first()
+    comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
     if authenticaton.user_verifying() == comment.user_id:
         return flask.jsonify("You can't set points to your comment.")
     else:
-        point = flask.request.json["point"]
-        if 0 <= int(point) <= 10:
-            user_id = comment.user_id
-            point_comment = CommentPointModel(user_id, int(point))
+        points = flask.request.json["points"]
+        if 0 <= int(points) <= 10:
+            user_id = authenticaton.user_verifying()
+            post_id = comment.post_id
+            comment_id = comment.comment_id
+            point_comment = CommentPointModel(user_id, post_id, comment_id, int(points))
             db.session.add(point_comment)
             db.session.commit()
             return flask.jsonify(point_comment)
@@ -295,9 +297,16 @@ def points_to_comment(comment_id):
 
 @app.route("/post<int:post_id>/comments", methods=["GET"])
 def get_comments_from_post(post_id):
-    all_comments = CommentModel.query.order_by(post_id == CommentModel.post_id).all()
-    results = NestedCommentSchema.dump(all_comments)
-    return flask.jsonify(results.data)
+    if CommentModel.query.order_by(post_id == CommentModel.post_id and CommentModel.parent_id is None).all():
+        all_comments = CommentModel.query.order_by(post_id == CommentModel.post_id and CommentModel.parent_id is None).all()
+        results = NestedCommentSchema.dump(all_comments)
+        return flask.jsonify(results.data)
+    else:
+        all_comments = CommentModel.query.filter(post_id == CommentModel.post_id).all()
+        results = CommentSchema.dump(all_comments)
+        return flask.jsonify(results.data)
+
+
 
 
 @app.route("/comment/<int:post_id>", methods=["PUT"])
