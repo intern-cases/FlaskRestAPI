@@ -2,26 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c7441906-c91b-4bce-8e32-8c71ef25b1cc" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/FlaskRestAPI.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/R_User_Library.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/063e810a04f2_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/16d553fb55a9_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/1d1091c5eb84_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/29abb6625fc2_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/3c529220789f_.py" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/versions/86106d2c94a6_.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/47184f6e99fc_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/67f773475408_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/68782a212b0c_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/726c296652ec_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/81c164ffd88b_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/872e92f4501c_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/8aaad58a1d81_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/b5cd77b55719_.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/versions/d7e6165b029a_.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testalch.py" beforeDir="false" afterPath="$PROJECT_DIR$/testalch.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/testviews.py" beforeDir="false" afterPath="$PROJECT_DIR$/testviews.py" afterDir="false" />
     </list>
@@ -32,7 +14,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/authenticaton.py">
           <provider selected="true" editor-type-id="text-editor">
@@ -44,19 +26,9 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/README.md">
-          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-            <state split_layout="SPLIT">
-              <first_editor />
-              <second_editor />
-            </state>
-          </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -64,11 +36,11 @@
           <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/testviews.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1485">
-              <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
+            <state relative-caret-position="553">
+              <caret line="217" column="43" selection-start-line="217" selection-start-column="43" selection-end-line="217" selection-end-column="44" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -79,7 +51,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/testalch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="675">
+            <state relative-caret-position="570">
               <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
               <folding>
                 <element signature="e#0#23#0" expanded="true" />
@@ -128,6 +100,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -139,7 +112,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -196,17 +168,18 @@
       <updated>1563979887537</updated>
       <workItem from="1563979889059" duration="982000" />
       <workItem from="1564037051793" duration="1342000" />
+      <workItem from="1564123038166" duration="1255000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2324000" />
+    <option name="totallyTimeSpent" value="3579000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1" y="23" width="1920" height="979" extended-state="1" />
+    <frame x="1" y="23" width="1920" height="979" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25239617" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2550586" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -235,37 +208,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor />
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/requirements.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testviews.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1485">
-          <caret line="99" lean-forward="true" selection-start-line="99" selection-end-line="99" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/testalch.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="675">
-          <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/authenticaton.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -275,8 +217,39 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/testalch.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="570">
+          <caret line="45" column="9" selection-start-line="45" selection-start-column="9" selection-end-line="45" selection-end-column="9" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor />
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/testviews.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="553">
+          <caret line="217" column="43" selection-start-line="217" selection-start-column="43" selection-end-line="217" selection-end-column="44" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>

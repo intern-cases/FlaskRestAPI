@@ -35,7 +35,7 @@ class UserModel(db.Model):
     comments = db.relationship('CommentModel', backref='users', cascade='delete', lazy=True)
     posts = db.relationship('PostModel', backref='users', cascade='delete', lazy=True)
     points = db.relationship("UserPointModel", backref='users', cascade='delete', lazy=True)
-    roles = db.relationship("UserRolesModel", backref='users', lazy=True)
+    roles = db.relationship("UserRolesModel", backref='users', cascade='delete', lazy=True)
 
     def __init__(self, username, email, raw_password):
         self.username = username

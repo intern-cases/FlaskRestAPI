@@ -18,14 +18,13 @@ postpoints_schema = PostPointSchema(many=True)
 commentpoints_schema = CommentPointSchema(many=True)
 
 """""""""""""""""""""""""""""""""""USER TABLE ROUTES"""""""""""""""""""""""""""""""""""""""""""""
-# user ve admin rollerinin database'e eklemnesi için yazılmış route şu anda user 1 ve admin 2 olarak belirlendi.
-""""@app.route("/addroles", methods=["POST"])
+# user ve admin rollerinin database'e eklenmesi için yazılmış route şu anda user 1 ve admin 2 olarak belirlendi.
+@app.route("/addroles", methods=["POST"])
 def add_roles():
     role_name = request.json["role_name"]
     new_role = RoleModel(role_name)
     db.session.add(new_role)
     db.session.commit()
-"""
 
 
 @app.route("/setroles", methods=["PUT"])
@@ -250,8 +249,8 @@ def post_update(user_id, post_id):
 @app.route("/post/<int:post_id>", methods=["DELETE"])
 @login_required
 def post_delete(post_id):
-    if user_verifying() == PostModel.user_id:
-        post = PostModel.query.filter(user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
+    post = PostModel.query.filter(user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
+    if user_verifying() == post.user_id:
         db.session.delete(post)
         db.session.commit()
         return jsonify(post)
@@ -322,7 +321,10 @@ def posts_comment_update(post_id, comment_id):
 @login_required
 def post_comment_delete(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
-    if user_verifying() == comment.user_id:
+    user_id = comment.user_id
+    import ipdb
+    ipdb.set_trace()
+    if user_verifying() == user_id:
         db.session.delete(comment)
         db.session.commit()
         return jsonify(comment)
