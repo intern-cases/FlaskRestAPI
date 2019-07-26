@@ -2,11 +2,12 @@ from flask import request, jsonify, abort
 from authenticaton import user_verifying, login_required
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
-    db, app, RoleModel, UserRolesModel
+    db, app, RoleModel, UserRolesModel, NestedCommentSchema
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
+nested_comments_schema = NestedCommentSchema(many=True)
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 
@@ -189,8 +190,8 @@ def points_to_post(post_id):
     else:
         point = request.json["point"]
         if 0 <= int(point) <= 10:
-            user_id = post.user_id
-            point_post = PostPointModel(user_id, int(point))
+            user_id = user_verifying()
+            point_post = PostPointModel(user_id, post_id, int(point))
             db.session.add(point_post)
             db.session.commit()
             return jsonify(point_post)
@@ -268,36 +269,30 @@ def add_comment_to_post(post_id):
     user_id = user_verifying()
     post = PostModel.query.filter(post_id == PostModel.post_id).first()
     comment_text = request.json["comment_text"]
-    new_comment = CommentModel(user_id, post.post_id, comment_text)
+    parent_id = None
+    new_comment = CommentModel(user_id, post.post_id, comment_text, parent_id)
     db.session.add(new_comment)
     db.session.commit()
     return jsonify(new_comment)
 
 
-@app.route("/set_points_comment/<int:comment_id>")
+@app.route("/set_points_comment/<int:comment_id>", methods=["POST"])
 @login_required
 def points_to_comment(comment_id):
-    comment = CommentModel.query.filter(comment_id == CommentModel.post_id).first()
+    comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
     if user_verifying() == comment.user_id:
         return jsonify("You can't set points to your comment.")
     else:
-        point = request.json["point"]
-        if 0 <= int(point) <= 10:
-            user_id = comment.user_id
-            point_comment = CommentPointModel(user_id, int(point))
+        points = request.json["points"]
+        if 0 <= int(points) <= 10:
+            user_id = user_verifying()
+            comment_id = comment.comment_id
+            point_comment = CommentPointModel(user_id, comment_id, int(points))
             db.session.add(point_comment)
             db.session.commit()
             return jsonify(point_comment)
         else:
-            return jsonify("Giriceğiniz puan 0 ile 10 arasında olmalıdır.")
-
-
-# posta bağlı tüm commentleri gösteren (tüm yorumları görmek için route)
-@app.route("/post<int:post_id>/comments", methods=["GET"])
-def get_comments_from_post(post_id):
-    all_comments = CommentModel.query.order_by(post_id == CommentModel.post_id).all()
-    results = comments_schema.dump(all_comments)
-    return jsonify(results)
+            return jsonify("You have to set points between 0 and 10.")
 
 
 # postun commentlerini update etmek için comment giriş yapmış usera bağlı mı diye kontrol ediliyor.
@@ -322,14 +317,37 @@ def posts_comment_update(post_id, comment_id):
 def post_comment_delete(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
     user_id = comment.user_id
-    import ipdb
-    ipdb.set_trace()
     if user_verifying() == user_id:
         db.session.delete(comment)
         db.session.commit()
         return jsonify(comment)
     else:
         return jsonify("You're not allowed to do this action.")
+
+
+@app.route("/comment/<int:comment_id>", methods=["POST"])
+@login_required
+def add_comment_to_comment(comment_id):
+    user_id = user_verifying()
+    post = PostModel.query.filter(user_id == PostModel.user_id).first()
+    parent_id = comment_id
+    comment_text = request.json["comment_text"]
+    comment = CommentModel(user_id, post.post_id, comment_text, parent_id)
+    db.session.add(comment)
+    db.session.commit()
+    return jsonify("Request done.")
+
+
+@app.route("/post<int:post_id>/comments", methods=["GET"])
+def get_comments_from_post(post_id):
+    all_comments = CommentModel.query.filter(post_id == PostModel.post_id).all()
+    if all_comments:
+        results = nested_comments_schema.dump(all_comments)
+        return jsonify(results)
+    else:
+        all_comments = CommentModel.query.filter(post_id == CommentModel.post_id).all()
+        results = comments_schema.dump(all_comments)
+        return jsonify(results)
 
 
 if __name__ == '__main__':

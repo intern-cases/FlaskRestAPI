@@ -91,12 +91,13 @@ class CommentModel(db.Model):
     points = db.relationship("CommentPointModel", backref='comments', cascade='delete', lazy=True)
     #   comments = db.relationship("t_comment", backref='comments', cascade = 'delete', lazy=True)
 
-    def __init__(self, user_id, post_id, comment_text):
+    def __init__(self, user_id, post_id, comment_text, parent_id):
         self.comment_text = comment_text
         self.user_id = user_id
         self.post_id = post_id
         self.created_time = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
+        self.parent_id = parent_id
 
 
 """""""""""""""""""""""""""""""Point Model"""""""""""""""""""""""""""""""""""""""""""
@@ -115,21 +116,24 @@ class UserPointModel(db.Model):
 
 class PostPointModel(db.Model):
 
-    def __init__(self, post_id, points):
+    def __init__(self, user_id, post_id, points):
+        self.user_id = user_id
         self.post_id = post_id
         self.points = points
 
+    user_id = db.Column(db.Integer, db.ForeignKey(UserModel.user_id), unique=False, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey(PostModel.post_id), unique=False, nullable=False)
     point_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     points = db.Column(db.Integer, nullable=False)
 
 
 class CommentPointModel(db.Model):
-
-    def __init__(self, comment_id, points):
+    def __init__(self, user_id, comment_id, points):
+        self.user_id = user_id
         self.comment_id = comment_id
         self.points = points
 
+    user_id = db.Column(db.Integer, nullable=False)
     comment_id = db.Column(db.Integer, db.ForeignKey(CommentModel.comment_id), unique=False, nullable=False)
     point_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     points = db.Column(db.Integer, nullable=False)
@@ -145,6 +149,7 @@ class UserPointSchema(Schema):
 
 
 class PostPointSchema(Schema):
+    user_id = fields.Int(dump_only=True)
     post_id = fields.Int(dump_only=True)
     point_id = fields.Int(dump_only=True, autoincrement=True)
     points = fields.Int(validate=validate.Range(min=0, max=10))
@@ -152,6 +157,7 @@ class PostPointSchema(Schema):
 
 class CommentPointSchema(Schema):
     comment_id = fields.Int(dump_only=True)
+    user_id = fields.Int(dump_only=True)
     point_id = fields.Int(dump_only=True, autoincrement=True)
     points = fields.Int(validate=validate.Range(min=0, max=10))
 
@@ -191,6 +197,18 @@ class UserSchema(Schema):
     posts = fields.Nested(PostSchema(), many=True)
     comments = fields.Nested(CommentSchema(), many=True)
     points = fields.Nested(UserPointSchema(), many=True)
+
+
+class NestedCommentSchema(Schema):
+    comment_id = fields.Int(dump_only=True)
+    comment_text = fields.Str(required=True)
+    user_id = fields.Int(dump_only=True)
+    parent_id = fields.Int(dump_only=True)
+    post_id = fields.Int(dump_only=True)
+    created_time = fields.DateTime(dump_only=True)
+    modified_at = fields.DateTime(dump_only=True)
+    points = fields.Nested(CommentPointSchema(), many=True)
+    comments = fields.Nested(CommentSchema(), many=True)
 
 
 db.session.commit()
