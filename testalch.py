@@ -9,7 +9,7 @@ from marshmallow import fields, Schema, validate
 
 app = Flask(__name__)
 db = SQLAlchemy(app)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/testcase'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:caglar2486@localhost:5432/intern_case'
 
 migrate = Migrate(app, db)
 manager = Manager(app)
