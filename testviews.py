@@ -203,11 +203,13 @@ def get_posts():
     return flask.jsonify(result.data)
 
 
+
 @app.route("/post/<int:user_id>", methods=["GET"])
 def post_detail(user_id):
     posts = PostModel.query.filter(user_id == PostModel.user_id).all()
     result = posts_schema.dump(posts)
     return flask.jsonify(result.data)
+
 
 
 @app.route("/post/<string:username>", methods=["GET"])
@@ -307,6 +309,10 @@ def get_comments_from_post(post_id):
         return flask.jsonify(results.data)
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 401d2b4345645d0dd1923b4f85a19167e7a6a091
 @app.route("/comment/<int:post_id>", methods=["PUT"])
 @authenticaton.login_required
 def posts_comment_update(post_id):
