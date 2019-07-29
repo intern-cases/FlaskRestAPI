@@ -41,7 +41,6 @@ def login_required(f):
             print("You need to send username and password as header!")
             abort(401)
             exit(0)
-        # burda split yapılmasının sebebi basic kısmını kesip decode etmek için yapılması.
         request_auth = request_auth.split(" ")[1]
         encoded_auth_username, encoded_auth_password = str(base64.b64decode(request_auth).decode("UTF-8")).split(":")
         user = UserModel.query.filter(encoded_auth_username == UserModel.username).first()
@@ -49,8 +48,8 @@ def login_required(f):
             if check_password_hash(user.password_hash, encoded_auth_password):
                 return f(*args, **kwargs)
             else:
-                return jsonify("Kullanıcı adı veya şifre hatalı")
+                return jsonify("Wrong username or password")
         else:
-            return jsonify("Lütfen giriş yapınız.")
+            return jsonify("Please login.")
 
     return login
