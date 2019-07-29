@@ -60,9 +60,12 @@ Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://gith
 | POST       |/addroles                              | Başlangıçta admin yetkisi için bir kere kullanılmalıdır                     |
 | PUT        |/setroles                              | Admin yetkisi olan kişi diğer kullanıcılara roller atayabilir               |
 
-### Veritabanı diyagramı:
+### Veritabanı Diyagramı:
 Aşağıda görüldüğü şekildedir. Endpointlerde çağırılan veritabanı tablolarını diyagrama bakarak görebilirsiniz.
 
 ![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/dbmodel.png)
 
 
+### UML Diyagramı:
+Sağ taraftaki admin giriş yaptığında tüm kullanıcılara bağlı gönderi ve yorumları silme yetkisine sahiptir.
+![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/flaskuml.png)
