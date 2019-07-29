@@ -9,10 +9,26 @@
   Bir kullanıcı sadece kendine ait yorumu, gönderiyi veya kendi kullanıcı
     bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
     sahip kullanıcı tüm yetkilere sahiptir.
+    
+ ## Projenin çalıştırılması:
+Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://github.com/intern-cases/FlaskRestAPI/blob/master/requirements.txt "requirements.txt")
+ dosyasını
+ 
+ `$ cd 'Projeyi çektiğiniz konum'`  
+ `$ pip install requirements.txt`
+ Şeklinde kurarak projeye ait tüm kütüphaneleri yükleyebilirsiniz.
+ 
+ (Virtual enviroment üzerinde kurulması tavsiye edilir.)
+ 
+ Veritabanı olarak postgresql kullanmak isterseniz 
+ `$ pip install postgres` komutuyla indirebilirsiniz.
+ `$ pg_ctl -D /usr/local/var/postgres start` komutu ile de postgresqli başlatmanız gerekmektedir.
+ 
+
  ## Endpointlerin çalışma şekli:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints")
  dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.
- [Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints") dosyasının içinde addroles endpointini açarak veritabanında RolesModele ilk olarak user eklenmeli sonrasında admin eklenmeli. Auto increment sayesinde user'ın role_id'si 1, adminin role_id'si 2 olarak tanımlanmalıdır.('POST' requestinde "role_name":"user", "role_name":"admin" olarak 2 kez request yapılmalıdır.) Sonrasında ilk kullanıcının rolü admin olan rol 2 olarak tanımlanmalıdır. Ardından admin olan kullanıcı authentication kısmından giriş yaptığında diğer kullanıcılara admin yetkisi atayabilir(/setroles endpointini kullanarak).
+ [Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints") dosyasının içinde /addroles endpointini açarak veritabanında RolesModele ilk olarak user eklenmeli sonrasında admin eklenmeli. Auto increment sayesinde user'ın role_id'si 1, adminin role_id'si 2 olarak tanımlanmalıdır.('POST' requestinde "role_name":"user", "role_name":"admin" olarak 2 kez request yapılmalıdır.) Sonrasında ilk kullanıcının rolü admin olan rol 2 olarak tanımlanmalıdır. Ardından admin olan kullanıcı authentication kısmından giriş yaptığında diğer kullanıcılara admin yetkisi atayabilir(/setroles endpointini kullanarak).
  
 
 | HTTP Method| Url                                   | Explanation                                                                 |
@@ -42,5 +58,10 @@
 | GET        |/post<int:post_id>/comments            | Post_id'si verilen posta ait commentler görülebilir                         |
 | POST       |/addroles                              | Başlangıçta admin yetkisi için bir kere kullanılmalıdır                     |
 | PUT        |/setroles                              | Admin yetkisi olan kişi diğer kullanıcılara roller atayabilir               |
+
+### Veritabanı diyagramı:
+Aşağıda görüldüğü şekildedir. Endpointlerde çağırılan veritabanı tablolarını diyagrama bakarak görebilirsiniz.
+
+![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/dbmodel.png)
 
 
