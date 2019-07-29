@@ -64,7 +64,7 @@ def add_user():
     db.session.add(new_user_role)
     db.session.commit()
 
-    return flask.jsonify(new_user)
+    return flask.jsonify("Request done.")
 
 
 @app.route("/set_points/<string:username>", methods=["POST"])
@@ -305,8 +305,6 @@ def get_comments_from_post(post_id):
         all_comments = CommentModel.query.filter(post_id == CommentModel.post_id).all()
         results = CommentSchema.dump(all_comments)
         return flask.jsonify(results.data)
-
-
 
 
 @app.route("/comment/<int:post_id>", methods=["PUT"])
