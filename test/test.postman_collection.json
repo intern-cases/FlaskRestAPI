@@ -1,0 +1,1202 @@
+{
+	"info": {
+		"_postman_id": "7884c94b-02dd-4fa5-b117-58ebd07894d4",
+		"name": "test",
+		"description": "Testing unit for FlaskBlogRestAPI app.routes on Postman ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:5000/main_page",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifreomer",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "omeraslandogdu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment_text\":\"caglar keskin post 1'e yapılan 3.comment\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/main_page",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"main_page"
+					]
+				},
+				"description": "Kullanıcıların bloga eklenmiş tüm postları görebilmesi için yapılmıştır, giriş yapılma kısıtlaması vardır."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifreomer",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "omeraslandogdu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"test user\",\n    \"email\":\"testuser@zingat.com\",\n    \"password\":\"sifretestuser\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user"
+					]
+				},
+				"description": "Yeni kullanıcı oluşturmak için kullanılır.Username,email ve password bilgileri girilerek yeni kullanıcı oluşturulmuş olur."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/post",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifretestuser",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"post_text\":\"testin 1. postu\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/post",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"post"
+					]
+				},
+				"description": "Kullanıcının post_text bilgisini vererek yeni post oluşturması için yapılmıştır. İşlem için işlem öncesinde login gereklidir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/comment/post2",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifretestuser",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "test user",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment_text\":\"testin 1. postunun 1. commenti\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/comment/post2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"comment",
+						"post2"
+					]
+				},
+				"description": "Hazır haledki posta comment_text ile yorum yapmak için kullanılır.Login işlemi şart değildir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user_panel",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user_panel",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user_panel"
+					]
+				},
+				"description": "Kullanıcı kendine ait tüm post,comment ve point bilgilerini görebilir.Bu işlem öncesinde login gerekmektedir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/users",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"users"
+					]
+				},
+				"description": "Tüm kullanıcılara ait bilgiler gelir.Login yapılıp yapılmaması bir değişiklik yaratmaz."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user/5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/5",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"5"
+					]
+				},
+				"description": "Seçilen kişinin profiline ait post,comment ve point bilgileri gösterilir.Login işlemi gerekmemektedir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user/caglarkeskin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/caglarkeskin",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"caglarkeskin"
+					]
+				},
+				"description": "Username bilgisi girilerek seçilen kişinin profilindeki post,comment ve point bilgileri görülebilir.Login işlemi şart değidir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user/zaferdurkut",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrezafer",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "zaferdurkut",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"zaferdurkut2\",\n    \"email\":\"zaferdurkut2@zingat.com\",\n    \"password\":\"sifrezafer2\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/zaferdurkut",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"zaferdurkut"
+					]
+				},
+				"description": "Username'i ile seçilen kişinin username,email ve password bilgilerini değiştirmek için kullanılır.Öncesinde login işlemi gerekmektedir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user/2",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifreomer",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "omeraslandogdu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"2"
+					]
+				},
+				"description": "User_id'si ile seçilen kişiye ait tüm bilgiler silinir.Öncesinde login işelmi gerekmekmektedir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/user/alpayonal",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrealpay",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "alpayonal",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/user/alpayonal",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"user",
+						"alpayonal"
+					]
+				},
+				"description": "Username'i ile seçilen kişinin bitün bilgileri silinir.Öncesinde login işlemi gerekmektedir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/my_posts",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/my_posts",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"my_posts"
+					]
+				},
+				"description": "Login ile giriş yapan kişi kendisine ait tüm postları ve bunlara gelen commentleri görebilir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/post/caglarkeskin",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifreomer",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "omeraslandogdu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"test user\",\n    \"email\":\"testuser@zingat.com\",\n    \"password\":\"sifretestuser\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/post/caglarkeskin",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"post",
+						"caglarkeskin"
+					]
+				},
+				"description": "Username ile ilgili kişiye ait tüm postlar ve bu postlara yapılan commentler görülebilir. Login işlemine ihtiyaç yoktur."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/post/1",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifreomer",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "omeraslandogdu",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\":\"test user\",\n    \"email\":\"testuser@zingat.com\",\n    \"password\":\"sifretestuser\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/post/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"post",
+						"1"
+					]
+				},
+				"description": "User_id yardımıyla ilgili kişiye ait tüm postlar ve bunlara gelen yorumlar görülebilir.Login işlemine ihtiyaç yoktur."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/post/1/1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"post_text\":\"caglar keskin 1. post güncellenmiş hali\"\n    \n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/post/1/1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"post",
+						"1",
+						"1"
+					]
+				},
+				"description": "User_id ve post_id bilgileri alınan kullanıcıya ait ilgili post,post_text girilerek güncellenir.İşlem öncesinde login yapılması gerekmektedir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/comment/post1",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment_text\":\"silme için comment ekleme denemesi\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/comment/post1",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"comment",
+						"post1"
+					]
+				},
+				"description": "Post_id ile istenilen posta comment eklenebilir.İşlem için öncesinde login yapmak gereklidir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/post/3",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment_text\":\"silme için comment ekleme denemesi\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/post/3",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"post",
+						"3"
+					]
+				},
+				"description": "Post_id verilerek ilgili post ve ona yapılan commentler silinir.İşlem öncesinde login gereklidir."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/post1/comments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"comment_text\":\"silme için comment ekleme denemesi\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/post1/comments",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"post1",
+						"comments"
+					]
+				},
+				"description": "Post_id yardımıyla ilgili posta yapılan yorumlar gösterilir.Öncesinde login yapmay ihtiyaç yoktur."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/set_points/zaferdurkut2",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"point\":\"8\"\n   \n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/set_points/zaferdurkut2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"set_points",
+						"zaferdurkut2"
+					]
+				},
+				"description": "Username'i girilerek seçilen kişiye puan verilebilir.İşlem öncesinde login gereklidir.Ayrıca kullanıcı kendine puan veremez,eğer vermeye çalışırsa 'You can't set points to yourself' uyarısı alır."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/set_points_post/2",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"point\":\"8\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/set_points_post/2",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"set_points_post",
+						"2"
+					]
+				},
+				"description": "Post_id verilerek ilgili posta puan verilebilir.Öncesinde login gereklidir.User kendi postuna puan vermeye çalışırsa 'You can't set points to your post.' uyarısı alır."
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:5000/set_points_comment/4",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "sifrecaglar",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "caglarkeskin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"points\":\"5\"\n}"
+				},
+				"url": {
+					"raw": "http://127.0.0.1:5000/set_points_comment/4",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"set_points_comment",
+						"4"
+					]
+				},
+				"description": "Comment_id'sini verdiğimiz commente puan vermek için kullanılır.Öncesinde login işlemi gerekmektedir.Eğer user kendi commentine puan vermeye çalışırsa 'You can't set points to your comment' uyarısı alacaktır."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "sifreomer",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "omeraslandogdu",
+				"type": "string"
+			}
+		]
+	}
+}
