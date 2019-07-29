@@ -1,7 +1,19 @@
 # FlaskRestAPI
 
-
-
+## Projenin amacı:
+  API kullanıcı adı, email ve passwordla kaydolarak gönderi
+    paylaşma, paylaşılan gönderilere yorum yapma amacıyla oluşturulmuştur.
+  Gönderi paylaşmak ve yorum yapmak vb. durumlar için giriş 
+    yapmak zorunludur. Giriş yapmış kullanıcılar aynı zamanda 
+    kullanıcıya, gönderiye veya yoruma puan verebilirler. 
+  Bir kullanıcı sadece kendine ait yorumu, gönderiyi veya kendi kullanıcı
+    bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
+    sahip kullanıcı tüm yetkilere sahiptir.
+ ## Endpointlerin çalışma şekli:
+ Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints")
+ dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.
+ [Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints") dosyasının içinde addroles endpointini açarak veritabanında RolesModele ilk olarak user eklenmeli sonrasında admin eklenmeli. Auto increment sayesinde user'ın role_id'si 1, adminin role_id'si 2 olarak tanımlanmalıdır.('POST' requestinde "role_name":"user", "role_name":"admin" olarak 2 kez request yapılmalıdır.) Sonrasında ilk kullanıcının rolü admin olan rol 2 olarak tanımlanmalıdır. Ardından admin olan kullanıcı authentication kısmından giriş yaptığında diğer kullanıcılara admin yetkisi atayabilir(/setroles endpointini kullanarak).
+ 
 
 | HTTP Method| Url                                   | Explanation                                                                 |
 | :---       |     :---:                             |          ---:                                                               |
@@ -30,3 +42,5 @@
 | GET        |/post<int:post_id>/comments            | Post_id'si verilen posta ait commentler görülebilir                         |
 | POST       |/addroles                              | Başlangıçta admin yetkisi için bir kere kullanılmalıdır                     |
 | PUT        |/setroles                              | Admin yetkisi olan kişi diğer kullanıcılara roller atayabilir               |
+
+
