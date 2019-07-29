@@ -10,7 +10,7 @@
     bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
     sahip kullanıcı tüm yetkilere sahiptir.
     
- ## Projenin çalıştırılması:
+ ## Projenin localde çalıştırılması:
 Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://github.com/intern-cases/FlaskRestAPI/blob/master/requirements.txt "requirements.txt")
  dosyasını
  
@@ -22,6 +22,7 @@ Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://gith
  
  Veritabanı olarak postgresql kullanmak isterseniz 
  `$ pip install postgres` komutuyla indirebilirsiniz.
+ 
  `$ pg_ctl -D /usr/local/var/postgres start` komutu ile de postgresqli başlatmanız gerekmektedir.
  
 
