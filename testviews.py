@@ -1,15 +1,9 @@
 import flask
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+
 import authenticaton
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, NestedCommentSchema, \
-    CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
-    UserRolesModel
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/postgres'
-db = SQLAlchemy(app)
+    CommentPointModel, CommentPointSchema, Manager, MigrateCommand, db, app, UserRolesModel
 
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
