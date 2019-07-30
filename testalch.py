@@ -1,10 +1,15 @@
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_script import Manager
 from sqlalchemy.sql import func
 import datetime
 from marshmallow import fields, Schema, validate
-from testviews import db, app
+
+app = Flask(__name__)
+app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/postgres'
+db = SQLAlchemy(app)
 
 
 migrate = Migrate(app, db)
@@ -192,6 +197,3 @@ class UserSchema(Schema):
 
 
 db.session.commit()
-
-if __name__ == '__main__':
-    manager.run()
