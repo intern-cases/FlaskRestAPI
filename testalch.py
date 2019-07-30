@@ -197,3 +197,6 @@ class UserSchema(Schema):
 
 
 db.session.commit()
+
+if __name__ == '__main__':
+    manager.run()
