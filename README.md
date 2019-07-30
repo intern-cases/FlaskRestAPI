@@ -1,6 +1,6 @@
 # Flask Blog Rest API
 
-## Projenin amacı:
+## Projenin Amacı:
   API kullanıcı adı, email ve passwordla kaydolarak gönderi
     paylaşma, paylaşılan gönderilere yorum yapma amacıyla oluşturulmuştur.
   Gönderi paylaşmak ve yorum yapmak vb. durumlar için giriş 
@@ -10,7 +10,7 @@
     bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
     sahip kullanıcı tüm yetkilere sahiptir.
     
- ## Projenin localde çalıştırılması:
+ ## Projenin Localde Çalıştırılması:
 Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://github.com/intern-cases/FlaskRestAPI/blob/master/requirements.txt "requirements.txt")
  dosyasını
  
@@ -26,7 +26,7 @@ Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://gith
  `$ pg_ctl -D /usr/local/var/postgres start` komutu ile de postgresqli başlatmanız gerekmektedir.
  
 
- ## Endpointlerin çalışma şekli:
+ ## Endpointlerin Çalışma Şekli:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints")
  dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.
  [Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints") dosyasının içinde /addroles endpointini açarak veritabanında RolesModele ilk olarak user eklenmeli sonrasında admin eklenmeli. Auto increment sayesinde user'ın role_id'si 1, adminin role_id'si 2 olarak tanımlanmalıdır.('POST' requestinde "role_name":"user", "role_name":"admin" olarak 2 kez request yapılmalıdır.) Sonrasında ilk kullanıcının rolü admin olan rol 2 olarak tanımlanmalıdır. Ardından admin olan kullanıcı authentication kısmından giriş yaptığında diğer kullanıcılara admin yetkisi atayabilir(/setroles endpointini kullanarak).
