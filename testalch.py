@@ -1,15 +1,10 @@
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate, MigrateCommand
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_script import Manager
 from sqlalchemy.sql import func
 import datetime
 from marshmallow import fields, Schema, validate
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/postgres'
-db = SQLAlchemy(app)
+from testviews import db, app
 
 
 migrate = Migrate(app, db)
