@@ -1,4 +1,4 @@
-# FlaskRestAPI
+# Flask Blog Rest API
 
 ## Projenin amacı:
   API kullanıcı adı, email ve passwordla kaydolarak gönderi
