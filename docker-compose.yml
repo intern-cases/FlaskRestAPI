@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  app:
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "1996:1996"
+    links:
+      - db
+    volumes:
+      - .:/app
+    command: tail -f /dev/null
+    env_file:
+      - .env
+
+  db:
+    image: mdillon/postgis:10
+    restart: always
+    environment:
+      POSTGRES_USER: posgres
+      POSTGRES_PASSWORD: posgres
+      POSTGRES_DB: posgres
+    ports:
+      - '5430:5432'
+    volumes:
+      - ./.data/dbpgdata:/var/lib/postgresql/data

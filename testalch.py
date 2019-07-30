@@ -72,7 +72,7 @@ class PostModel(db.Model):
     points = db.relationship("PostPointModel", backref='posts', cascade='delete', lazy=True)
 
     def __init__(self, post_text, user_id):
-        self.user_id=user_id
+        self.user_id = user_id
         self.post_text = post_text
         self.created_time = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
@@ -172,7 +172,7 @@ class CommentSchema(Schema):
     created_time = fields.DateTime(dump_only=True)
     modified_at = fields.DateTime(dump_only=True)
     points = fields.Nested(CommentPointSchema(), many=True)
-    #comments = fields.Nested(CommentSchema(), many=True)
+    # comments = fields.Nested(CommentSchema(), many=True)
 
 
 # post şeması
