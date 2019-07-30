@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 import datetime
 from marshmallow import fields, Schema, validate
 
-app: Flask = Flask(__name__)
+app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = 'postgresql://omerfarukaslandogdu:Wasbornaslion1?@localhost:5432/postgres'
 db = SQLAlchemy(app)
 
