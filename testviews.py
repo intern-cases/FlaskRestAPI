@@ -1,6 +1,6 @@
 import flask
 
-import authenticaton
+import authentication
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, NestedCommentSchema, \
     CommentPointModel, CommentPointSchema, Manager, MigrateCommand, db, app, UserRolesModel
@@ -30,10 +30,10 @@ def add_roles():
 
 
 @app.route("/set_roles", methods=["PUT"])
-@authenticaton.login_required
+@authentication.login_required
 def set_admin():
     user = UserRolesModel.query.filter(
-        authenticaton.user_verifying == UserRolesModel.user_id).get(UserRolesModel.role_id)
+        authentication.user_verifying == UserRolesModel.user_id).get(UserRolesModel.role_id)
     if user.role_id == 2:
         user_id = flask.request.json["user_id"]
         role_id = flask.request.json["role_id"]
@@ -67,10 +67,10 @@ def add_user():
 
 
 @app.route("/set_points/<string:username>", methods=["POST"])
-@authenticaton.login_required
+@authentication.login_required
 def point_to_user(username):
     user = UserModel.query.filter(username == UserModel.username).first()
-    if authenticaton.user_verifying() == user.user_id:
+    if authentication.user_verifying() == user.user_id:
         return flask.jsonify("You can't set points to yourself.")
     else:
         points = flask.request.json["point"]
@@ -85,9 +85,9 @@ def point_to_user(username):
 
 
 @app.route("/user_panel", methods=["GET"])
-@authenticaton.login_required
+@authentication.login_required
 def get_logged_user():
-    spesific_user = UserModel.query.filter(authenticaton.user_verifying() == UserModel.user_id).first()
+    spesific_user = UserModel.query.filter(authentication.user_verifying() == UserModel.user_id).first()
     result = user_schema.dump(spesific_user)
     return flask.jsonify(result.data)
 
@@ -114,10 +114,10 @@ def user_detail_by_username(username):
 
 
 @app.route("/user/<string:username>", methods=["PUT"])
-@authenticaton.login_required
+@authentication.login_required
 def user_update(username):
     user = UserModel.query.filter(username == UserModel.username).first()
-    if user.user_id == authenticaton.user_verifying() or authenticaton.is_admin(authenticaton.user_verifying()):
+    if user.user_id == authentication.user_verifying() or authentication.is_admin(authentication.user_verifying()):
         username = flask.request.json['username']
         password = flask.request.json['password']
         email = flask.request.json['email']
@@ -132,10 +132,10 @@ def user_update(username):
 
 
 @app.route("/user/<int:user_id>", methods=["DELETE"])
-@authenticaton.login_required
+@authentication.login_required
 def user_delete(user_id):
-    if user_id == authenticaton.user_verifying() or authenticaton.is_admin(authenticaton.user_verifying()):
-        user = UserModel.query.filter(authenticaton.user_verifying() == UserModel.user_id).first()
+    if user_id == authentication.user_verifying() or authentication.is_admin(authentication.user_verifying()):
+        user = UserModel.query.filter(authentication.user_verifying() == UserModel.user_id).first()
         db.session.delete(user)
         db.session.commit()
         return flask.jsonify(user)
@@ -144,10 +144,10 @@ def user_delete(user_id):
 
 
 @app.route("/user/<string:username>", methods=["DELETE"])
-@authenticaton.login_required
+@authentication.login_required
 def user_delete_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
-    if authenticaton.user_verifying() == user.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
+    if authentication.user_verifying() == user.user_id or authentication.is_admin(authentication.user_verifying()):
         db.session.delete(user)
         db.session.commit()
         return flask.jsonify(user)
@@ -159,9 +159,9 @@ def user_delete_by_username(username):
 
 
 @app.route("/post", methods=["POST"])
-@authenticaton.login_required
+@authentication.login_required
 def add_post():
-    user_id = authenticaton.user_verifying()
+    user_id = authentication.user_verifying()
     post_text = flask.request.json["post_text"]
     new_post = PostModel(post_text, user_id)
     db.session.add(new_post)
@@ -170,15 +170,15 @@ def add_post():
 
 
 @app.route("/set_points_post/<int:post_id>", methods=["POST"])
-@authenticaton.login_required
+@authentication.login_required
 def points_to_post(post_id):
     post = PostModel.query.filter(post_id == PostModel.post_id).first()
     point = flask.request.json["point"]
-    if authenticaton.user_verifying() == post.user_id:
+    if authentication.user_verifying() == post.user_id:
         return flask.jsonify("You can't set points to your post.")
     else:
         if int(point) >= 0 or int(point) <= 10:
-            user_id = authenticaton.user_verifying()
+            user_id = authentication.user_verifying()
             point_post = PostPointModel(user_id, post_id, int(point))
             db.session.add(point_post)
             db.session.commit()
@@ -188,9 +188,9 @@ def points_to_post(post_id):
 
 
 @app.route("/my_posts", methods=["GET"])
-@authenticaton.login_required
+@authentication.login_required
 def logged_users_post():
-    my_post = PostModel.query.filter(PostModel.user_id == authenticaton.user_verifying())
+    my_post = PostModel.query.filter(PostModel.user_id == authentication.user_verifying())
     result = posts_schema.dump(my_post)
     return flask.jsonify(result.data)
 
@@ -220,11 +220,11 @@ def post_detail_by_username(username):
 
 
 @app.route("/post/<int:user_id>/<int:post_id>", methods=["PUT"])
-@authenticaton.login_required
+@authentication.login_required
 def post_update(user_id, post_id):
     post = PostModel.query.filter(user_id == PostModel.user_id and post_id == PostModel.post_id).first()
     post_text = flask.request.json["post_text"]
-    if authenticaton.user_verifying() == post.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
+    if authentication.user_verifying() == post.user_id or authentication.is_admin(authentication.user_verifying()):
         post.post_text = post_text
 
         db.session.commit()
@@ -235,11 +235,11 @@ def post_update(user_id, post_id):
 
 
 @app.route("/post/<int:post_id>", methods=["DELETE"])
-@authenticaton.login_required
+@authentication.login_required
 def post_delete(post_id):
     post = PostModel.query.filter(
-        authenticaton.user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
-    if authenticaton.user_verifying() == post.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
+        authentication.user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
+    if authentication.user_verifying() == post.user_id or authentication.is_admin(authentication.user_verifying()):
         db.session.delete(post)
         db.session.commit()
         return flask.jsonify(post)
@@ -251,9 +251,9 @@ def post_delete(post_id):
 
 
 @app.route("/comment/post<int:post_id>", methods=["POST"])
-@authenticaton.login_required
+@authentication.login_required
 def add_comment_to_post(post_id):
-    user_id = authenticaton.user_verifying()
+    user_id = authentication.user_verifying()
     post = PostModel.query.filter(post_id == PostModel.post_id).first()
     comment_text = flask.request.json["comment_text"]
     parent_id = None
@@ -264,9 +264,9 @@ def add_comment_to_post(post_id):
 
 
 @app.route("/comment/<int:comment_id>", methods=["POST"])
-@authenticaton.login_required
+@authentication.login_required
 def add_comment_to_comment(comment_id):
-    user_id = authenticaton.user_verifying()
+    user_id = authentication.user_verifying()
     post_id = PostModel.query.filter(user_id == PostModel.user_id).get(PostModel.post_id)
     parent_id = comment_id
     comment_text = flask.request.json["comment_text"]
@@ -277,15 +277,15 @@ def add_comment_to_comment(comment_id):
 
 
 @app.route("/set_points_comment/<int:comment_id>", methods=["POST"])
-@authenticaton.login_required
+@authentication.login_required
 def points_to_comment(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
-    if authenticaton.user_verifying() == comment.user_id:
+    if authentication.user_verifying() == comment.user_id:
         return flask.jsonify("You can't set points to your comment.")
     else:
         points = flask.request.json["points"]
         if 0 <= int(points) <= 10:
-            user_id = authenticaton.user_verifying()
+            user_id = authentication.user_verifying()
             post_id = comment.post_id
             comment_id = comment.comment_id
             point_comment = CommentPointModel(user_id, post_id, comment_id, int(points))
@@ -309,12 +309,12 @@ def get_comments_from_post(post_id):
 
 
 @app.route("/comment/<int:post_id>", methods=["PUT"])
-@authenticaton.login_required
+@authentication.login_required
 def posts_comment_update(post_id):
     post = CommentModel.query.filter(post_id == CommentModel.post_id).first()
     comment = CommentModel.query.filter(
-        authenticaton.user_verifying() == CommentModel.user_id and CommentModel.post_id == post.post_id).first()
-    if authenticaton.user_verifying() == comment.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
+        authentication.user_verifying() == CommentModel.user_id and CommentModel.post_id == post.post_id).first()
+    if authentication.user_verifying() == comment.user_id or authentication.is_admin(authentication.user_verifying()):
         comment_text = flask.request.json["comment_text"]
         comment.comment_text = comment_text
         db.session.commit()
@@ -324,10 +324,10 @@ def posts_comment_update(post_id):
 
 
 @app.route("/comment/delete<int:comment_id>", methods=["DELETE"])
-@authenticaton.login_required
+@authentication.login_required
 def post_comment_delete(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
-    if authenticaton.user_verifying() == comment.user_id or authenticaton.is_admin(authenticaton.user_verifying()):
+    if authentication.user_verifying() == comment.user_id or authentication.is_admin(authentication.user_verifying()):
         db.session.delete(comment)
         db.session.commit()
         return flask.jsonify(comment)

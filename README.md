@@ -1,6 +1,26 @@
 # FlaskRestAPI
+Projeyi kendi tarafınıza forklayın. Sonra,
 
-## Projenin amacı:
+    $ git clone git@github.com:<kullanıcı adınız>/FlaskRestAPI.git
+    
+komutu ile klonladıktan sonra
+
+    $ cd /Projenin konumu
+    $ docker-compose up --build -d
+    
+kurulum tamamiyle gerçekleştikten sonra yeni terminal ekranında cd /projenin konumuna geçtikten sonra
+
+    $ docker exec -it flaskrestapi_app_1 bash
+    root:/app# python testalch.py db migrate
+    root:/app# python testalch.py db upgrade
+    root:/app# python testviews.py runserver
+    
+sonrasında test dosyasının içindeki [postman_collection.json](https://github.com/intern-cases/FlaskRestAPI/blob/master/test/test.postman_collection.json "postman_collection.json") 
+dosyasını postmande çalıştırarak test sorgularını deneyebilirsiniz.
+    
+
+
+# Projenin amacı:
   API kullanıcı adı, email ve passwordla kaydolarak gönderi
     paylaşma, paylaşılan gönderilere yorum yapma amacıyla oluşturulmuştur.
   Gönderi paylaşmak ve yorum yapmak vb. durumlar için giriş 
@@ -10,7 +30,19 @@
     bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
     sahip kullanıcı tüm yetkilere sahiptir.
     
- ## Projenin localde çalıştırılması:
+##Projenin Özeti ve Kullanılan Teknolojiler : 
+Proje Flask üzerinden yapılmış olup Posgresql veritabanı bağlantıları için Flask-SQLAlchemy kullanılmıştır.Projedeki
+[testalch.py](https://github.com/intern-cases/FlaskRestAPI/blob/master/testalch.py "testalch.py")  dosyasında role,user,
+post,comment ve pointlerle ilgili classlar oluşturulmuştur ve schemalar da bu kısımda verilmiştir.Password işlemleri için
+de `$ werkzeug.security` kütüphanesi kullanılmıştır.[testviews.py](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "testviews.py") 
+dosyasında ise gerekli işlemler için url adresleri atanmıştır ve bu adreslerde yapılacak işlemler tanımlanmıştır.
+[authentication.py](https://github.com/intern-cases/FlaskRestAPI/blob/master/authenticaton.py "authentication.py") dosyasında ise decorator
+yapıları kullanılarak login işlemi düzenlenmiştir.Buradaki login decoratorları ise testviews.py dosyasında login gerektiren işlemlerin öncesinde kullanılmıştır.
+Daha sonra bu url'ler ve yaptıkları işlemler Postman'de test edilerek test.postman_collection.json 
+[test.postman_collection.json](https://github.com/intern-cases/FlaskRestAPI/blob/master/test/test.postman_collection.json "test.postman_collection.json") 
+dosyasında verilmiştir.
+    
+ # Projenin localde çalıştırılması:
 Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://github.com/intern-cases/FlaskRestAPI/blob/master/requirements.txt "requirements.txt")
  dosyasını
  
@@ -26,7 +58,7 @@ Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://gith
  `$ pg_ctl -D /usr/local/var/postgres start` komutu ile de postgresqli başlatmanız gerekmektedir.
  
 
- ## Endpointlerin çalışma şekli:
+ # Endpointlerin çalışma şekli:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints")
  dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.
  [Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints") dosyasının içinde /addroles endpointini açarak veritabanında RolesModele ilk olarak user eklenmeli sonrasında admin eklenmeli. Auto increment sayesinde user'ın role_id'si 1, adminin role_id'si 2 olarak tanımlanmalıdır.('POST' requestinde "role_name":"user", "role_name":"admin" olarak 2 kez request yapılmalıdır.) Sonrasında ilk kullanıcının rolü admin olan rol 2 olarak tanımlanmalıdır. Ardından admin olan kullanıcı authentication kısmından giriş yaptığında diğer kullanıcılara admin yetkisi atayabilir(/setroles endpointini kullanarak).
@@ -60,12 +92,12 @@ Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://gith
 | POST       |/addroles                              | Başlangıçta admin yetkisi için bir kere kullanılmalıdır                     |
 | PUT        |/setroles                              | Admin yetkisi olan kişi diğer kullanıcılara roller atayabilir               |
 
-### Veritabanı Diyagramı:
+# Veritabanı Diyagramı:
 Aşağıda görüldüğü şekildedir. Endpointlerde çağırılan veritabanı tablolarını diyagrama bakarak görebilirsiniz.
 
 ![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/dbmodel.png)
 
 
-### UML Diyagramı:
+# UML Diyagramı:
 Sağ taraftaki admin giriş yaptığında tüm kullanıcılara bağlı gönderi ve yorumları silme yetkisine sahiptir.
 ![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/flaskuml.png)
