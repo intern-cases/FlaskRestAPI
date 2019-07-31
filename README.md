@@ -42,22 +42,6 @@ Daha sonra bu url'ler ve yaptıkları işlemler Postman'de test edilerek test.po
 [test.postman_collection.json](https://github.com/intern-cases/FlaskRestAPI/blob/master/test/test.postman_collection.json "test.postman_collection.json") 
 dosyasında verilmiştir.
     
- # Projenin localde çalıştırılması:
-Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://github.com/intern-cases/FlaskRestAPI/blob/master/requirements.txt "requirements.txt")
- dosyasını
- 
-    $ cd 'Projeyi çektiğiniz konum' 
-    $ pip install requirements.txt
- Şeklinde kurarak projeye ait tüm kütüphaneleri yükleyebilirsiniz.
- 
- (Virtual enviroment üzerinde kurulması tavsiye edilir.)
- 
- Veritabanı olarak postgresql kullanmak isterseniz 
- `$ pip install postgres` komutuyla indirebilirsiniz.
- 
- `$ pg_ctl -D /usr/local/var/postgres start` komutu ile de postgresqli başlatmanız gerekmektedir.
- 
-
  # Endpointlerin çalışma şekli:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/blob/master/testviews.py "Endpoints")
  dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.
