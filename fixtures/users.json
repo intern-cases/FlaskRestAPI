@@ -1,0 +1,32 @@
+[
+  {
+    "table": "RoleModel",
+    "records": [
+      {
+        "role_id": "1",
+        "role_name": "user"
+      },
+      {
+        "role_id": "2",
+        "role_name": "admin"
+      }
+    ]
+  },
+  {
+    "table": "UserModel",
+    "records": [
+      {
+        "username": "test1",
+        "password": "test123",
+        "email": "test1@testmail.com"
+      }]
+  },
+  {
+    "model": "FlaskRestAPI.testalch.PostModel",
+    "records":[
+      {
+        "post_text":"Test post for user test1"
+      }
+    ]
+  }
+]
