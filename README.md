@@ -15,7 +15,7 @@ kurulum tamamiyle gerçekleştikten sonra yeni terminal ekranında cd /projenin 
     root:/app# python testalch.py db upgrade
     root:/app# python testviews.py runserver
     
-sonrasında test dosyasının içindeki [postman_collection.json](https://github.com/intern-cases/FlaskRestAPI/blob/master/test/test.postman_collection.json "postman_collection.json") 
+çalıştırın. Test dosyasının içindeki [postman_collection.json](https://github.com/intern-cases/FlaskRestAPI/blob/master/test/test.postman_collection.json "postman_collection.json") 
 dosyasını postmande çalıştırarak test sorgularını deneyebilirsiniz.
     
 
@@ -46,8 +46,8 @@ dosyasında verilmiştir.
 Projeyi kendi bilgisayarınıza çektikten sonra [requirements.txt](https://github.com/intern-cases/FlaskRestAPI/blob/master/requirements.txt "requirements.txt")
  dosyasını
  
- `$ cd 'Projeyi çektiğiniz konum'`  
- `$ pip install requirements.txt`
+    $ cd 'Projeyi çektiğiniz konum' 
+    $ pip install requirements.txt
  Şeklinde kurarak projeye ait tüm kütüphaneleri yükleyebilirsiniz.
  
  (Virtual enviroment üzerinde kurulması tavsiye edilir.)
