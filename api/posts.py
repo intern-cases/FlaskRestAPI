@@ -3,7 +3,7 @@ from models.users import UserModel
 from schemas.posts import PostSchema, PostPointSchema
 from models.posts import PostModel, PostPointModel
 from utils.extensions import db
-from authentication import user_verifying, login_required, is_admin
+from api.authentication import user_verifying, login_required, is_admin
 
 posts_schema = PostSchema(many=True)
 post_points_schema = PostPointSchema(many=True)

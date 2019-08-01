@@ -4,7 +4,7 @@ from models.posts import PostModel
 from schemas.comments import CommentSchema, CommentPointSchema, NestedCommentSchema
 
 from utils.extensions import db
-from authentication import user_verifying, login_required, is_admin
+from api.authentication import user_verifying, login_required, is_admin
 
 comments_schema = CommentSchema(many=True)
 comment_points_schema = CommentPointSchema(many=True)

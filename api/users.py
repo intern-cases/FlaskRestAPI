@@ -2,7 +2,7 @@ from flask import request, jsonify, abort, Blueprint
 from models.users import UserPointModel, UserRolesModel, UserModel
 from utils.extensions import db
 from schemas.users import UserPointSchema, UserSchema
-from authentication import user_verifying, login_required, is_admin
+from api.authentication import user_verifying, login_required, is_admin
 
 user_schema = UserSchema()
 users_schema = UserSchema(many=True)
@@ -34,7 +34,7 @@ def set_admin():
         return jsonify("You're not allowed to do this")
 
 
-@blueprint_users.route("/user", methods=["POST"])
+@blueprint_users.route("/sign_up", methods=["POST"])
 def add_user():
     username = request.json['username']
     email = request.json['email']
@@ -82,28 +82,28 @@ def get_logged_user():
     return jsonify(result.data)
 
 
-@blueprint_users.route("/users", methods=["GET"])
+@blueprint_users.route("/list", methods=["GET"])
 def get_users():
     all_users = UserModel.query.all()
     result = users_schema.dump(all_users)
     return jsonify(result.data)
 
 
-@blueprint_users.route("/user/<int:user_id>", methods=["GET"])
+@blueprint_users.route("/<int:user_id>", methods=["GET"])
 def user_detail(user_id):
     user = UserModel.query.filter(user_id == UserModel.user_id).first()
     result = user_schema.dump(user)
     return jsonify(result.data)
 
 
-@blueprint_users.route("/user/<string:username>", methods=["GET"])
+@blueprint_users.route("/<string:username>", methods=["GET"])
 def user_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     result = user_schema.dump(user)
     return jsonify(result.data)
 
 
-@blueprint_users.route("/user/<string:username>", methods=["PUT"])
+@blueprint_users.route("/<string:username>", methods=["PUT"])
 @login_required
 def user_update(username):
     user = UserModel.query.filter(username == UserModel.username).first()
@@ -121,7 +121,7 @@ def user_update(username):
         return jsonify("You're not allowed to do this action.")
 
 
-@blueprint_users.route("/user/<int:user_id>", methods=["DELETE"])
+@blueprint_users.route("/<int:user_id>", methods=["DELETE"])
 @login_required
 def user_delete(user_id):
     if user_id == user_verifying() or is_admin(user_verifying()):
@@ -133,7 +133,7 @@ def user_delete(user_id):
         return jsonify("You're not allowed to do this action.")
 
 
-@blueprint_users.route("/user/<string:username>", methods=["DELETE"])
+@blueprint_users.route("/delete/<string:username>", methods=["DELETE"])
 @login_required
 def user_delete_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()

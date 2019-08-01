@@ -9,10 +9,10 @@ class Config(object):
     TESTING = False
     TESTS_FOLDER = 'tests'
     LOGGING_LEVEL = 'DEBUG'
-    HOST = '127.0.0.1'
-    PORT = 5000
+    HOST = '0.0.0.0'
+    PORT = 1996
 
-    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@localhost:5432/postgres'
+    SQLALCHEMY_DATABASE_URI = 'postgresql://postgres:postgres@db:5432/postgres'
     SQLALCHEMY_ECHO = False
     SQLALCHEMY_TRACK_MODIFICATIONS = True
 

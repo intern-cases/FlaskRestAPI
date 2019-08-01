@@ -1,3 +1,4 @@
+python-dotenv
 marshmallow-sqlalchemy
 flask-marshmallow
 pybase64

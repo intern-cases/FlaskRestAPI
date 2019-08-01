@@ -1,5 +1,6 @@
 import os
 from flask import Flask
+from flask_migrate import Migrate
 from dotenv import load_dotenv
 from config.config import config
 from utils.extensions import db
@@ -26,6 +27,8 @@ def create_app():
 def register_extensions(app):
     """Register extensions."""
     db.init_app(app)
+    migrate = Migrate()
+    migrate.init_app(app, db)
     return None
 
 
