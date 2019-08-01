@@ -1,7 +1,7 @@
 from werkzeug.security import check_password_hash
 from flask import abort, jsonify, request
 from functools import wraps
-from testalch import UserModel, UserRolesModel
+from models.users import UserModel, UserRolesModel
 import base64
 
 
