@@ -1,9 +1,11 @@
 from flask import request, jsonify, abort
-from authenticaton import user_verifying, login_required
+from authentication import login_required, user_verifying
 from testalch import UserSchema, UserModel, PostSchema, PostModel, CommentSchema, CommentModel, UserPointModel, \
     UserPointSchema, PostPointModel, PostPointSchema, CommentPointModel, CommentPointSchema, Manager, MigrateCommand, \
     db, app, RoleModel, UserRolesModel, NestedCommentSchema
+from flask import Blueprint
 
+index_blueprint = Blueprint('index', __name__)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
@@ -20,7 +22,7 @@ commentpoints_schema = CommentPointSchema(many=True)
 
 """""""""""""""""""""""""""""""""""USER TABLE ROUTES"""""""""""""""""""""""""""""""""""""""""""""
 # user ve admin rollerinin database'e eklenmesi için yazılmış route şu anda user 1 ve admin 2 olarak belirlendi.
-@app.route("/addroles", methods=["POST"])
+@index_blueprint.route("/addroles", methods=["POST"])
 def add_roles():
     role_name = request.json["role_name"]
     new_role = RoleModel(role_name)
@@ -28,12 +30,12 @@ def add_roles():
     db.session.commit()
 
 
-@app.route("/setroles", methods=["PUT"])
+@index_blueprint.route("/setroles", methods=["PUT"])
 @login_required
 def set_admin():
     # giriş yapmış kullanıcının admin olup olmadığını ifte kontrol ediyoruz
     # burda admin başka kullanıcıya admin yetkisi verebiliyor.
-    user = UserRolesModel.query.filter(user_verifying == UserRolesModel.user_id).get(UserRolesModel.role_id)
+    user = UserRolesModel.query.filter(user_verifying() == UserRolesModel.user_id).get(UserRolesModel.role_id)
     if user.role_id == 2:
         user_id = request.json["user_id"]
         role_id = request.json["role_id"]
@@ -46,7 +48,7 @@ def set_admin():
 
 
 # kullanıcı kayit
-@app.route("/user", methods=["POST"])
+@index_blueprint.route("/user", methods=["POST"])
 def add_user():
     username = request.json['username']
     email = request.json['email']
@@ -68,7 +70,7 @@ def add_user():
     return jsonify(new_user)
 
 
-@app.route("/set_points/<string:username>", methods=["POST"])
+@index_blueprint.route("/set_points/<string:username>", methods=["POST"])
 @login_required
 def point_to_user(username):
     user = UserModel.query.filter(username == UserModel.username).first()
@@ -87,7 +89,7 @@ def point_to_user(username):
 
 
 # user bilgilerini görebildiği panel.
-@app.route("/user_panel", methods=["GET"])
+@index_blueprint.route("/user_panel", methods=["GET"])
 @login_required
 def get_logged_user():
     spesific_user = UserModel.query.filter(user_verifying() == UserModel.user_id).first()
@@ -96,7 +98,7 @@ def get_logged_user():
 
 
 # tüm userları getir
-@app.route("/users", methods=["GET"])
+@index_blueprint.route("/users", methods=["GET"])
 @login_required
 def get_users():
     all_users = UserModel.query.all()
@@ -105,7 +107,7 @@ def get_users():
 
 
 # idye göre kullanıcı görme
-@app.route("/user/<int:user_id>", methods=["GET"])
+@index_blueprint.route("/user/<int:user_id>", methods=["GET"])
 def user_detail(user_id):
     user = UserModel.query.filter(user_id == UserModel.user_id).first()
     result = user_schema.dump(user)
@@ -113,7 +115,7 @@ def user_detail(user_id):
 
 
 # kullanıcı adına  göre kullanıcıları görme
-@app.route("/user/<string:username>", methods=["GET"])
+@index_blueprint.route("/user/<string:username>", methods=["GET"])
 def user_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     result = user_schema.dump(user)
@@ -121,7 +123,7 @@ def user_detail_by_username(username):
 
 
 # kullanıcı adına göre kullanıcıyı güncelleme
-@app.route("/user/<string:username>", methods=["PUT"])
+@index_blueprint.route("/user/<string:username>", methods=["PUT"])
 @login_required
 def user_update(username):
     user = UserModel.query.filter(username == UserModel.username).first()
@@ -141,7 +143,7 @@ def user_update(username):
 
 
 # kullanıcı kullanıcı numarasina göre kullanıcı silme
-@app.route("/user/<int:user_id>", methods=["DELETE"])
+@index_blueprint.route("/user/<int:user_id>", methods=["DELETE"])
 @login_required
 def user_delete(user_id):
     if user_id == user_verifying():
@@ -154,7 +156,7 @@ def user_delete(user_id):
 
 
 # kullanıcı adına göre kullanıcı silme
-@app.route("/user/<string:username>", methods=["DELETE"])
+@index_blueprint.route("/user/<string:username>", methods=["DELETE"])
 @login_required
 def user_delete_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
@@ -170,7 +172,7 @@ def user_delete_by_username(username):
 
 
 # kullanıcıya post ekleme
-@app.route("/post", methods=["POST"])
+@index_blueprint.route("/post", methods=["POST"])
 @login_required
 def add_post():
     user_id = user_verifying()
@@ -181,7 +183,7 @@ def add_post():
     return jsonify(new_post)
 
 
-@app.route("/set_points_post/<int:post_id>", methods=["POST"])
+@index_blueprint.route("/set_points_post/<int:post_id>", methods=["POST"])
 @login_required
 def points_to_post(post_id):
     post = PostModel.query.filter(post_id == PostModel.post_id).first()
@@ -199,7 +201,7 @@ def points_to_post(post_id):
             return jsonify("Giriceğiniz puan 0 ile 10 arasında olmalıdır.")
 
 
-@app.route("/my_posts", methods=["GET"])
+@index_blueprint.route("/my_posts", methods=["GET"])
 @login_required
 def logged_users_post():
     my_post = PostModel.query.filter(PostModel.user_id == user_verifying())
@@ -208,7 +210,7 @@ def logged_users_post():
 
 
 # tüm postları alma
-@app.route("/main_page", methods=["GET"])
+@index_blueprint.route("/main_page", methods=["GET"])
 def get_posts():
     all_posts = PostModel.query.all()
     result = posts_schema.dump(all_posts)
@@ -216,7 +218,7 @@ def get_posts():
 
 
 # kullanıcı idsine göre postları görme
-@app.route("/post/<int:user_id>", methods=["GET"])
+@index_blueprint.route("/post/<int:user_id>", methods=["GET"])
 def post_detail(user_id):
     posts = PostModel.query.filter(user_id == PostModel.user_id).all()
     result = posts_schema.dump(posts)
@@ -224,7 +226,7 @@ def post_detail(user_id):
 
 
 # kullanıcıya göre postları görme
-@app.route("/post/<string:username>", methods=["GET"])
+@index_blueprint.route("/post/<string:username>", methods=["GET"])
 def post_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     post = PostModel.query.filter(user.user_id == PostModel.user_id).all()
@@ -234,7 +236,7 @@ def post_detail_by_username(username):
 
 # usera bağlı bi postu güncellemek için daha sonra kullanıcı
 # o posta sahip olup olmadığıyla ilgili authentication gelicek
-@app.route("/post/<int:user_id>/<int:post_id>", methods=["PUT"])
+@index_blueprint.route("/post/<int:user_id>/<int:post_id>", methods=["PUT"])
 @login_required
 def post_update(user_id, post_id):
     post = PostModel.query.filter(user_id == PostModel.user_id and post_id == PostModel.post_id).first()
@@ -247,7 +249,7 @@ def post_update(user_id, post_id):
 
 
 # post silme kullanıcıya bağlı, postu silmek için sonradan authentication eklenicek
-@app.route("/post/<int:post_id>", methods=["DELETE"])
+@index_blueprint.route("/post/<int:post_id>", methods=["DELETE"])
 @login_required
 def post_delete(post_id):
     post = PostModel.query.filter(user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
@@ -263,7 +265,7 @@ def post_delete(post_id):
 
 
 # comment ekleme
-@app.route("/comment/post<int:post_id>", methods=["POST"])
+@index_blueprint.route("/comment/post<int:post_id>", methods=["POST"])
 @login_required
 def add_comment_to_post(post_id):
     user_id = user_verifying()
@@ -276,7 +278,7 @@ def add_comment_to_post(post_id):
     return jsonify(new_comment)
 
 
-@app.route("/set_points_comment/<int:comment_id>", methods=["POST"])
+@index_blueprint.route("/set_points_comment/<int:comment_id>", methods=["POST"])
 @login_required
 def points_to_comment(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
@@ -296,7 +298,7 @@ def points_to_comment(comment_id):
 
 
 # postun commentlerini update etmek için comment giriş yapmış usera bağlı mı diye kontrol ediliyor.
-@app.route("/comment/<int:post_id>/<int:comment_id>", methods=["PUT"])
+@index_blueprint.route("/comment/<int:post_id>/<int:comment_id>", methods=["PUT"])
 @login_required
 def posts_comment_update(post_id, comment_id):
     post = CommentModel.query.filter(post_id == CommentModel.post_id).first()
@@ -312,7 +314,7 @@ def posts_comment_update(post_id, comment_id):
 
 
 # comment silmek için, comment usera bağlı mı kontrol ediliyor.
-@app.route("/comment/delete<int:comment_id>", methods=["DELETE"])
+@aindex_blueprint.route("/comment/delete<int:comment_id>", methods=["DELETE"])
 @login_required
 def post_comment_delete(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
@@ -325,7 +327,7 @@ def post_comment_delete(comment_id):
         return jsonify("You're not allowed to do this action.")
 
 
-@app.route("/comment/<int:comment_id>", methods=["POST"])
+@index_blueprint.route("/comment/<int:comment_id>", methods=["POST"])
 @login_required
 def add_comment_to_comment(comment_id):
     user_id = user_verifying()
@@ -338,7 +340,7 @@ def add_comment_to_comment(comment_id):
     return jsonify("Request done.")
 
 
-@app.route("/post<int:post_id>/comments", methods=["GET"])
+@index_blueprint.route("/post<int:post_id>/comments", methods=["GET"])
 def get_comments_from_post(post_id):
     all_comments = CommentModel.query.filter(post_id == PostModel.post_id).all()
     if all_comments:

@@ -6,8 +6,10 @@ from flask_script import Manager
 from sqlalchemy.sql import func
 import datetime
 from marshmallow import fields, Schema, validate
+from testviews import index_blueprint
 
 app = Flask(__name__)
+app.register_blueprint(index_blueprint)
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:caglar2486@localhost:5432/intern_case'
 
