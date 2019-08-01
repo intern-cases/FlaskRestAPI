@@ -1,4 +1,4 @@
-from flask_script import Manager, Server
+from flask_script import Manager,Server
 from flask_migrate import MigrateCommand, Migrate
 from flask_sqlalchemy import SQLAlchemy
 
@@ -9,7 +9,7 @@ db = SQLAlchemy(app)
 
 server = Server(host=Config.HOST, port=Config.PORT)
 
-migrate = Migrate(app, db)
+
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 manager.add_command("runserver", server)
