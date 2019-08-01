@@ -79,9 +79,9 @@ dosyasında verilmiştir.
 # Veritabanı Diyagramı:
 Aşağıda görüldüğü şekildedir. Endpointlerde çağırılan veritabanı tablolarını diyagrama bakarak görebilirsiniz.
 
-![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/dbmodel.png)
+![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/docs/dbmodel.png)
 
 
 # UML Diyagramı:
 Sağ taraftaki admin giriş yaptığında tüm kullanıcılara bağlı gönderi ve yorumları silme yetkisine sahiptir.
-![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/pictures/flaskuml.png)
+![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/docs/flaskuml.png)
