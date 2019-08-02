@@ -55,14 +55,14 @@ def get_posts():
     return jsonify(result.data)
 
 
-@blueprint_posts.route("/post/<int:user_id>", methods=["GET"])
+@blueprint_posts.route("/<int:user_id>", methods=["GET"])
 def post_detail(user_id):
     posts = PostModel.query.filter(user_id == PostModel.user_id).all()
     result = posts_schema.dump(posts)
     return jsonify(result.data)
 
 
-@blueprint_posts.route("/post/<string:username>", methods=["GET"])
+@blueprint_posts.route("/<string:username>", methods=["GET"])
 def post_detail_by_username(username):
     user = UserModel.query.filter(username == UserModel.username).first()
     post = PostModel.query.filter(user.user_id == PostModel.user_id).all()
@@ -70,7 +70,7 @@ def post_detail_by_username(username):
     return jsonify(result.data)
 
 
-@blueprint_posts.route("/post/<int:user_id>/<int:post_id>", methods=["PUT"])
+@blueprint_posts.route("/<int:user_id>/<int:post_id>", methods=["PUT"])
 @login_required
 def post_update(user_id, post_id):
     post = PostModel.query.filter(user_id == PostModel.user_id and post_id == PostModel.post_id).first()
@@ -85,7 +85,7 @@ def post_update(user_id, post_id):
         return jsonify("You're not allowed to do this.")
 
 
-@blueprint_posts.route("/post/<int:post_id>", methods=["DELETE"])
+@blueprint_posts.route("/<int:post_id>", methods=["DELETE"])
 @login_required
 def post_delete(post_id):
     post = PostModel.query.filter(
