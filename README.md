@@ -1,4 +1,4 @@
-# FlaskRestAPI
+# Flask Blog Rest API
 
 Install
 ----
@@ -34,7 +34,7 @@ Start
     bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
     sahip kullanıcı tüm yetkilere sahiptir.
     
-##Projenin Özeti ve Kullanılan Teknolojiler : 
+## Projenin Özeti ve Kullanılan Teknolojiler : 
 Proje Python Flask framework ile yapılmış olup Postgresql veritabanı bağlantıları için Flask-SQLAlchemy kullanılmıştır.
 Diğer kütüphaneler için requirements.txt
     
@@ -78,9 +78,10 @@ Diğer kütüphaneler için requirements.txt
 # Veritabanı Diyagramı:
 Aşağıda görüldüğü şekildedir. Endpointlerde çağırılan veritabanı tablolarını diyagrama bakarak görebilirsiniz.
 
-![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/docs/dbmodel.png)
+![](https://github.com/intern-cases/FlaskRestAPI/blob/master/docs/dbmodel.png)
 
 
 # UML Diyagramı:
 Sağ taraftaki admin giriş yaptığında tüm kullanıcılara bağlı gönderi ve yorumları silme yetkisine sahiptir.
-![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/docs/flaskuml.png)
+![](https://github.com/intern-cases/FlaskRestAPI/blob/master/docs/flaskuml.png)
+
