@@ -5,3 +5,5 @@ venv
 authenticaton.pyc
 testalch.pyc
 testviews.pyc
+.data
+migrations
