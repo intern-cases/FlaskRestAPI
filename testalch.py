@@ -13,6 +13,7 @@ app.register_blueprint(index_blueprint)
 db = SQLAlchemy(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:caglar2486@localhost:5432/intern_case'
 
+
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
