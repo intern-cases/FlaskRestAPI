@@ -20,10 +20,17 @@ services:
     image: mdillon/postgis:10
     restart: always
     environment:
-      POSTGRES_USER: posgres
-      POSTGRES_PASSWORD: posgres
-      POSTGRES_DB: posgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     ports:
-      - '5430:5432'
+      - '5400:5432'
     volumes:
       - ./.data/dbpgdata:/var/lib/postgresql/data
+
+
+
+
+
+
+

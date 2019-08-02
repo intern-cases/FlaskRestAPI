@@ -1,7 +1,10 @@
 FROM python:3.6-slim-stretch
 WORKDIR /app
+
 COPY . /app
+
 ENV LANG=C.UTF-8
+
 RUN set -ex; \
     apt-get update -y; \
     apt-get upgrade -y; \
