@@ -1,4 +1,4 @@
-# FlaskRestAPI
+# Blog example with Flask Rest API
 
 Install
 ----
