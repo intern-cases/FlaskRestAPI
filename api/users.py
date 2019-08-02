@@ -1,5 +1,5 @@
 from flask import request, jsonify, abort, Blueprint
-from models.users import UserPointModel, UserRolesModel, UserModel
+from models.users import UserPointModel, UserRolesModel, UserModel, RoleModel
 from utils.extensions import db
 from schemas.users import UserPointSchema, UserSchema
 from api.authentication import user_verifying, login_required, is_admin
@@ -8,15 +8,14 @@ user_schema = UserSchema()
 users_schema = UserSchema(many=True)
 user_points_schema = UserPointSchema(many=True)
 
-"""
-@app.route("/add_roles", methods=["POST"])
+blueprint_users = Blueprint("users", __name__, url_prefix='/users/')
+@blueprint_users.route("/add_roles", methods=["POST"])
 def add_roles():
-    role_name = flask.request.json["role_name"]
+    role_name = request.json["role_name"]
     new_role = RoleModel(role_name)
     db.session.add(new_role)
     db.session.commit()
-"""
-blueprint_users = Blueprint("users", __name__, url_prefix='/users/')
+    return jsonify("Role added.")
 
 
 @blueprint_users.route("/set_roles", methods=["PUT"])
@@ -121,7 +120,7 @@ def user_update(username):
         return jsonify("You're not allowed to do this action.")
 
 
-@blueprint_users.route("/<int:user_id>", methods=["DELETE"])
+@blueprint_users.route("/delete/<int:user_id>", methods=["DELETE"])
 @login_required
 def user_delete(user_id):
     if user_id == user_verifying() or is_admin(user_verifying()):

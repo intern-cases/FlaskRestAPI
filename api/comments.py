@@ -13,7 +13,7 @@ comment_points_schema = CommentPointSchema(many=True)
 blueprint_comments = Blueprint("comments", __name__, url_prefix='/comments/')
 
 
-@blueprint_comments.route("/comment/post<int:post_id>", methods=["POST"])
+@blueprint_comments.route("/post<int:post_id>", methods=["POST"])
 @login_required
 def add_comment_to_post(post_id):
     user_id = user_verifying()
@@ -26,7 +26,7 @@ def add_comment_to_post(post_id):
     return jsonify(new_comment)
 
 
-@blueprint_comments.route("/comment/<int:comment_id>", methods=["POST"])
+@blueprint_comments.route("/<int:comment_id>", methods=["POST"])
 @login_required
 def add_comment_to_comment(comment_id):
     user_id = user_verifying()
@@ -59,7 +59,7 @@ def points_to_comment(comment_id):
             return jsonify("You have to set points between 0 and 10.")
 
 
-@blueprint_comments.route("/post<int:post_id>/comments", methods=["GET"])
+@blueprint_comments.route("/post<int:post_id>", methods=["GET"])
 def get_comments_from_post(post_id):
     if CommentModel.query.order_by(post_id == CommentModel.post_id and CommentModel.parent_id is None).all():
         all_comments = CommentModel.query.order_by(post_id == CommentModel.post_id and CommentModel.parent_id is None).all()
@@ -71,7 +71,7 @@ def get_comments_from_post(post_id):
         return jsonify(results.data)
 
 
-@blueprint_comments.route("/comment/<int:post_id>", methods=["PUT"])
+@blueprint_comments.route("/<int:post_id>", methods=["PUT"])
 @login_required
 def posts_comment_update(post_id):
     post = CommentModel.query.filter(post_id == CommentModel.post_id).first()
@@ -86,7 +86,7 @@ def posts_comment_update(post_id):
         return jsonify("You're not allowed to do this action.")
 
 
-@blueprint_comments.route("/comment/delete<int:comment_id>", methods=["DELETE"])
+@blueprint_comments.route("/delete<int:comment_id>", methods=["DELETE"])
 @login_required
 def post_comment_delete(comment_id):
     comment = CommentModel.query.filter(comment_id == CommentModel.comment_id).first()
