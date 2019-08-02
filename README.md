@@ -1,4 +1,4 @@
-# Flask Blog Rest API
+# FlaskRestAPI
 
 Install
 ----
@@ -34,19 +34,50 @@ Start
     bilgilerini silebilir veya güncelleyebilmektedir ancak admin yetkisine
     sahip kullanıcı tüm yetkilere sahiptir.
     
-## Projenin Özeti ve Kullanılan Teknolojiler : 
+##Projenin Özeti ve Kullanılan Teknolojiler : 
 Proje Python Flask framework ile yapılmış olup Postgresql veritabanı bağlantıları için Flask-SQLAlchemy kullanılmıştır.
 Diğer kütüphaneler için requirements.txt
     
  # Endpointler:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/tree/master/api "Endpoints")
- dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.
-    
-       
-        
+ dosyasındaki url uzantılarının ne iş yaptıklarını göstermektedir. Test dosyasının içindeki .json uzaktılı dosyayı [Postman](https://www.getpostman.com "Postman") ile açtığınızda tüm endpointlerin deneme requestlerine ulaşabilirsiniz.      
  Sonrasında ilk kullanıcının rolü admin olan rol 2 olarak tanımlanmalıdır. Ardından admin olan kullanıcı authentication kısmından giriş yaptığında diğer kullanıcılara admin yetkisi atayabilir(/setroles endpointini kullanarak).
  
+ ### Örnek Request:
+    
+    GET  127.0.0.1:1996/users/list
+    
+ ### Örnek Response:
 
+    [
+        {
+            "comments": [],
+            "created_time": "2019-08-02T07:34:25.683699+00:00",
+            "email": "test@testmail.com",
+            "modified_at": "2019-08-02T07:34:25.683699+00:00",
+            "points": [],
+            "posts": [],
+            "user_id": 1,
+            "username": "test"
+        }
+    ]
+    
+    
+### Örnek Request:
+    
+    POST 127.0.0.1:1996/users/sign_up
+    Body: 
+    {
+	"username":"test",
+	"password":"test123",
+	"email":"test@testmail.com"
+    }
+    
+### Örnek Response:
+    
+    It signs a user to database and returns json test:
+    Request done.
+  
 | HTTP Method| Url                                   | Explanation                                                                 |
 | :---       |     :---:                             |          ---:                                                               |
 | POST       |/users/sign_up                         | Yeni bir kullanıcı eklemek için kullanılır                                  |
@@ -72,16 +103,14 @@ Diğer kütüphaneler için requirements.txt
 | DELETE     |/comments/delete<int:comment_id>        | Login yapan kullanıcı comment_id'sini verdiği commenti silebilir            |
 | POST       |/comments/<int:comment_id>              | Login yapan kullanıcı comment_id'sini verdiği commente comment atabilir     |
 | GET        |/comments/post<int:post_id>                      | Post_id'si verilen posta ait commentler görülebilir                         |
-| POST       |/users/add_roles                        | Başlangıçta admin yetkisi için bir kere kullanılmalıdır                     |
 | PUT        |/users/set_roles                          | Admin yetkisi olan kişi diğer kullanıcılara roller atayabilir               |
 
 # Veritabanı Diyagramı:
 Aşağıda görüldüğü şekildedir. Endpointlerde çağırılan veritabanı tablolarını diyagrama bakarak görebilirsiniz.
 
-![](https://github.com/intern-cases/FlaskRestAPI/blob/master/docs/dbmodel.png)
+![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/docs/dbmodel.png)
 
 
 # UML Diyagramı:
 Sağ taraftaki admin giriş yaptığında tüm kullanıcılara bağlı gönderi ve yorumları silme yetkisine sahiptir.
-![](https://github.com/intern-cases/FlaskRestAPI/blob/master/docs/flaskuml.png)
-
+![](https://github.com/intern-cases/FlaskRestAPI/blob/develop/docs/flaskuml.png)
