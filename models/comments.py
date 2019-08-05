@@ -31,5 +31,3 @@ class CommentPointModel(db.Model):
     comment_id = db.Column(db.Integer, db.ForeignKey(CommentModel.comment_id), unique=False, nullable=False)
     point_id = db.Column(db.Integer, primary_key=True, nullable=False, autoincrement=True)
     points = db.Column(db.Integer, nullable=False)
-
-

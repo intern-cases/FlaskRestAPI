@@ -1,7 +1,7 @@
 from werkzeug.security import check_password_hash
 from flask import abort, jsonify, request
 from functools import wraps
-from models.users import UserModel, UserRolesModel
+from manager.users import get_user_by_user_id, get_user_by_username
 import base64
 
 
@@ -13,20 +13,20 @@ def user_verifying():
         exit(0)
     request_auth = request_auth.split(" ")[1]
     encoded_auth_username = str(base64.b64decode(request_auth).decode("UTF-8")).split(":")[0]
-    user = UserModel.query.filter(encoded_auth_username == UserModel.username).first()
+    user = get_user_by_username(encoded_auth_username)
     verified_user_id = user.user_id
     return verified_user_id
 
 
 def is_admin(user_id):
     if user_id is None:
-        user = UserRolesModel.query.filter(user_verifying() == UserRolesModel.user_id).first()
+        user = get_user_by_user_id(user_verifying())
         if user.role_id == 2:
             return True
         else:
             return False
     else:
-        user = UserRolesModel.query.filter(user_id == UserRolesModel.user_id).first()
+        user = get_user_by_user_id(user_id)
         if user.role_id == 2:
             return True
         else:
@@ -43,7 +43,7 @@ def login_required(f):
             exit(0)
         request_auth = request_auth.split(" ")[1]
         encoded_auth_username, encoded_auth_password = str(base64.b64decode(request_auth).decode("UTF-8")).split(":")
-        user = UserModel.query.filter(encoded_auth_username == UserModel.username).first()
+        user = get_user_by_username(encoded_auth_username)
         if user:
             if check_password_hash(user.password_hash, encoded_auth_password):
                 return f(*args, **kwargs)

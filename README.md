@@ -2,14 +2,17 @@
 
 Install
 ----
-
+Projeyi docker üzerinde çalıştırmak için:
+    
     $ git clone git@github.com:intern-cases/FlaskRestAPI.git
     $ cd /Projenin konumu
     $ docker-compose build
-    $ doker-compose up -d
+    $ docker-compose up -d
     
 Start
 ---
+Yeni terminal sekmesinde:
+
     $ docker exec -it flaskrestapi_app_1 bash
     root:/app# python manage.py db migrate
     root:/app# python manage.py db upgrade
@@ -36,7 +39,7 @@ Start
     
 ##Projenin Özeti ve Kullanılan Teknolojiler : 
 Proje Python Flask framework ile yapılmış olup Postgresql veritabanı bağlantıları için Flask-SQLAlchemy kullanılmıştır.
-Diğer kütüphaneler için requirements.txt
+Diğer kütüphaneler için requirements.txt dosyasına bakınız.
     
  # Endpointler:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/tree/master/api "Endpoints")
