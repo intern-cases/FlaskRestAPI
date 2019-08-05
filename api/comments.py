@@ -50,7 +50,7 @@ def points_to_comment(comment_id):
             post_id = comment.post_id
             comment_id = comment.comment_id
             point_comment = CommentPointModel(user_id, post_id, comment_id, int(points))
-
+            db_add(point_comment)
             db_commit()
             return jsonify(point_comment)
         else:
