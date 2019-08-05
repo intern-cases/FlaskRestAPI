@@ -1,12 +1,8 @@
 from flask import request, jsonify, Blueprint
-from models.users import UserModel
-from schemas.posts import PostSchema, PostPointSchema
-from models.posts import PostModel, PostPointModel
-from utils.extensions import db
 from api.authentication import user_verifying, login_required, is_admin
+from manager.posts import *
+from manager.users import get_user_by_username
 
-posts_schema = PostSchema(many=True)
-post_points_schema = PostPointSchema(many=True)
 
 blueprint_posts = Blueprint("posts", __name__, url_prefix='/posts/')
 
@@ -17,15 +13,15 @@ def add_post():
     user_id = user_verifying()
     post_text = request.json["post_text"]
     new_post = PostModel(post_text, user_id)
-    db.session.add(new_post)
-    db.session.commit()
+    db_add(new_post)
+    db_commit()
     return jsonify(new_post)
 
 
 @blueprint_posts.route("/set_points_post/<int:post_id>", methods=["POST"])
 @login_required
 def points_to_post(post_id):
-    post = PostModel.query.filter(post_id == PostModel.post_id).first()
+    post = get_posts_by_post_id(post_id)
     point = request.json["point"]
     if user_verifying() == post.user_id:
         return jsonify("You can't set points to your post.")
@@ -33,8 +29,8 @@ def points_to_post(post_id):
         if int(point) >= 0 or int(point) <= 10:
             user_id = user_verifying()
             point_post = PostPointModel(user_id, post_id, int(point))
-            db.session.add(point_post)
-            db.session.commit()
+            db_add(point_post)
+            db_commit()
             return jsonify(point_post)
         else:
             return jsonify("You have to set points between 0 and 10.")
@@ -43,14 +39,14 @@ def points_to_post(post_id):
 @blueprint_posts.route("/my_posts", methods=["GET"])
 @login_required
 def logged_users_post():
-    my_post = PostModel.query.filter(PostModel.user_id == user_verifying())
+    my_post = get_posts_by_user_id(user_verifying())
     result = posts_schema.dump(my_post)
     return jsonify(result.data)
 
 
 @blueprint_posts.route("/main_page", methods=["GET"])
 def get_posts():
-    all_posts = PostModel.query.all()
+    all_posts = get_all_post()
     result = posts_schema.dump(all_posts)
     return jsonify(result.data)
 
@@ -64,8 +60,8 @@ def post_detail(user_id):
 
 @blueprint_posts.route("/<string:username>", methods=["GET"])
 def post_detail_by_username(username):
-    user = UserModel.query.filter(username == UserModel.username).first()
-    post = PostModel.query.filter(user.user_id == PostModel.user_id).all()
+    user = get_user_by_username(username)
+    post = get_all_posts_by_user_id(user.user_id)
     result = posts_schema.dump(post)
     return jsonify(result.data)
 
@@ -78,7 +74,7 @@ def post_update(user_id, post_id):
     if user_verifying() == post.user_id or is_admin(user_verifying()):
         post.post_text = post_text
 
-        db.session.commit()
+        db_commit()
         return jsonify(post)
 
     else:
@@ -91,8 +87,8 @@ def post_delete(post_id):
     post = PostModel.query.filter(
         user_verifying() == PostModel.user_id and post_id == PostModel.post_id).first()
     if user_verifying() == post.user_id or is_admin(user_verifying()):
-        db.session.delete(post)
-        db.session.commit()
+        db_delete(post)
+        db_commit()
         return jsonify(post)
     else:
         return jsonify("You're not allowed to do this action.")

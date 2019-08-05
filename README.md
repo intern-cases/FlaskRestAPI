@@ -36,7 +36,7 @@ Start
     
 ## Projenin Özeti ve Kullanılan Teknolojiler : 
 Proje Python Flask framework ile yapılmış olup Postgresql veritabanı bağlantıları için Flask-SQLAlchemy kullanılmıştır.
-Diğer kütüphaneler için requirements.txt
+Diğer kütüphaneler için requirements.txt dosyasına bakınız.
     
  # Endpointler:
  Alt kısımdaki endpointler,[Endpoints](https://github.com/intern-cases/FlaskRestAPI/tree/master/api "Endpoints")
