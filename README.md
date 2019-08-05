@@ -2,14 +2,17 @@
 
 Install
 ----
-
+Projeyi docker üzerinde çalıştırmak için:
+    
     $ git clone git@github.com:intern-cases/FlaskRestAPI.git
     $ cd /Projenin konumu
     $ docker-compose build
-    $ doker-compose up -d
+    $ docker-compose up -d
     
 Start
 ---
+Yeni terminal sekmesinde:
+
     $ docker exec -it flaskrestapi_app_1 bash
     root:/app# python manage.py db migrate
     root:/app# python manage.py db upgrade
